@@ -19,12 +19,8 @@ public class MainActivity extends AppCompatActivity {
         signInBtn = findViewById(R.id.signInButtonHome);
         registerBtn = findViewById(R.id.registerButtonHome);
 
-        signInBtn.setOnClickListener(view -> {
-            setContentView(R.layout.layout_sign_in);
-        });
+        signInBtn.setOnClickListener(view -> setContentView(R.layout.layout_sign_in));
 
-        registerBtn.setOnClickListener(view -> {
-            setContentView(R.layout.layout_register);
-        });
+        registerBtn.setOnClickListener(view -> setContentView(R.layout.layout_register));
     }
 }
