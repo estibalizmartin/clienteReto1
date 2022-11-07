@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">clienteReto1</string>
+    <string name="app_name">lokos por la música</string>
+    <string name="sign_in_txt">Sign In</string>
+    <string name="register_txt">Register</string>
+    <string name="reset_password_txt">Reset password</string>
+    <string name="reset_txt">Reset</string>
+    <string name="community_txt">Community</string>
+    <string name="favorites_txt">Favorites</string>
+    
+    <string name="username_txt">Username</string>
+    <string name="first_name_txt">First name</string>
+    <string name="last_names_txt">Last names</string>
+    <string name="email_txt">Email</string>
+    <string name="password_txt">Password</string>
+    <string name="confirm_password_txt">Confirm password</string>
+    <string name="old_password_txt">Old password</string>
+    <string name="new_password_txt">New password</string>
+    <string name="confirm_new_password_txt">Confirm new password</string>
+    <string name="remember_me_txt">Remember me?</string>
 </resources>
