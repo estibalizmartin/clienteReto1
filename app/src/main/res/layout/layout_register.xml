@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/registerToolbar"
         android:layout_width="413dp"
         android:layout_height="54dp"
         android:background="?attr/colorPrimary"
@@ -14,14 +14,13 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:title="@string/register_txt" />
 
     <EditText
-        android:id="@+id/usernameTextViewLog"
+        android:id="@+id/usernameTextViewRegister"
         android:layout_width="340dp"
         android:layout_height="48dp"
         android:ems="10"
@@ -31,11 +30,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/registerToolbar"
         app:layout_constraintVertical_bias="0.128" />
 
     <EditText
-        android:id="@+id/firstNameTextView"
+        android:id="@+id/firstNameTextViewRegister"
         android:layout_width="340dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -46,11 +45,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTextViewLog"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTextViewRegister"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/lastNamesTextView"
+        android:id="@+id/lastNamesTextViewRegister"
         android:layout_width="340dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -61,11 +60,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstNameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/firstNameTextViewRegister"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/emailTextView"
+        android:id="@+id/emailTextViewRegister"
         android:layout_width="340dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -76,11 +75,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastNamesTextView"
+        app:layout_constraintTop_toBottomOf="@+id/lastNamesTextViewRegister"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/oldPasswordTextView"
+        android:id="@+id/passwordTextViewRegister"
         android:layout_width="340dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -91,11 +90,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextViewRegister"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/emailTextView3"
+        android:id="@+id/confirmPasswordTextViewRegister"
         android:layout_width="340dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -106,11 +105,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/oldPasswordTextView"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextViewRegister"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/signInButton"
+        android:id="@+id/registerButtonRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
@@ -119,6 +118,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextView3"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextViewRegister"
         app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
