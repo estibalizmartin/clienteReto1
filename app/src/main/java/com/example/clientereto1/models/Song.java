@@ -14,6 +14,10 @@ public class Song implements Serializable {
 
     private String url;
 
+    public Song() {
+
+    }
+
     public Song(int id, String author, String title, String url) {
         this.id = id;
         this.author = author;

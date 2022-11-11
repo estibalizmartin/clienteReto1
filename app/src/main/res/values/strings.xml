@@ -20,4 +20,5 @@
     <string name="new_password_txt">New password</string>
     <string name="confirm_new_password_txt">Confirm new password</string>
     <string name="remember_me_txt">Remember me?</string>
+    <string name="error_communication">error_communication</string>
 </resources>

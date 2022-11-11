@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/songIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Son ID"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/songTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Song title"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/songAuthorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Song author"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/songUrlTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Song URL"
+        tools:ignore="TextContrastCheck" />
+
+</LinearLayout>

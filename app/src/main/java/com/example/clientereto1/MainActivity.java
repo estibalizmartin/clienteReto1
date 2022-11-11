@@ -3,10 +3,21 @@ package com.example.clientereto1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.clientereto1.adapters.MyTableAdapter;
+import com.example.clientereto1.connection.SongsRequest;
+import com.example.clientereto1.models.Song;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,10 +33,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         getSupportActionBar().hide();
 
         createMainButtons();
-
+        ArrayList<Song> listado = new ArrayList<>();
+        MyTableAdapter myTableAdapter = new MyTableAdapter (this, R.layout.myrow_layout, listado);
+        findViewById(R.id.signInButtonSignIn ).setOnClickListener( v -> {
+            if (isConnected()) {
+                SongsRequest songsRequest = new SongsRequest();
+                Thread thread = new Thread( songsRequest );
+                try {
+                    thread.start();
+                    thread.join(); // Awaiting response from the server...
+                } catch (InterruptedException e) {
+                    // Nothing to do here...
+                }
+                // Processing the answer
+                ArrayList<Song> listSongs = songsRequest.getResponse();
+                System.out.println(listSongs);
+                listado.addAll( listSongs );
+                ((ListView) findViewById( R.id.allSongsListView)).setAdapter (myTableAdapter);
+            }
+        });
     }
 
     public void fromMainToSingIn(){
@@ -80,5 +110,19 @@ public class MainActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(view -> {
             fromMainToRegister();
         });
+    }
+
+    public boolean isConnected() {
+        boolean ret = false;
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
+                    .getSystemService( Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if ((networkInfo != null) && (networkInfo.isAvailable()) && (networkInfo.isConnected()))
+                ret = true;
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), getString(R.string.error_communication), Toast.LENGTH_SHORT).show();
+        }
+        return ret;
     }
 }
