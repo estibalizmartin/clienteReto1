@@ -6,8 +6,8 @@
     <string name="reset_txt">Reset</string>
     <string name="community_txt">Community</string>
     <string name="hi_user_txt">Hi,&#160;</string>
-    <string name="favorites_txt">Favorites</string>
-    <string name="favorite_songs_txt">Favorite songs</string>
+    <string name="favourites_txt">Favourites</string>
+    <string name="favourite_songs_txt">Favourite songs</string>
     <string name="all_songs_txt">All songs</string>
     
     <string name="username_txt">Username</string>

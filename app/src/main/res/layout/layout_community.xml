@@ -14,6 +14,7 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/community_txt" />
@@ -34,6 +35,20 @@
         app:title="@string/hi_user_txt"
         app:titleTextColor="#000000" />
 
+    <ImageButton
+        android:id="@+id/hamburguesaCommunity"
+        android:layout_width="49dp"
+        android:layout_height="54dp"
+        android:background="?attr/colorPrimaryVariant"
+        android:contentDescription="@android:string/untitled"
+        app:layout_constraintBottom_toBottomOf="@+id/hiToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/hiToolbar"
+        app:layout_constraintTop_toBottomOf="@+id/communityTitle"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/hamburguesa2" />
+
     <SearchView
         android:id="@+id/communitySearchBar"
         android:layout_width="413dp"
@@ -51,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/favorite_songs_txt"
+        android:text="@string/favourite_songs_txt"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +99,20 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:title="@string/community_txt" />
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <TextView
+        android:id="@+id/communityTitle"
+        android:layout_width="201dp"
+        android:layout_height="42dp"
+        android:text="@string/community_txt"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@+id/communityToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.552"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/communityToolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

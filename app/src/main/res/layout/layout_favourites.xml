@@ -16,13 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favoritesToolbar"
+        app:layout_constraintTop_toBottomOf="@+id/favouritesToolbar"
         app:layout_constraintVertical_bias="0.0"
         app:title="@string/hi_user_txt"
         app:titleTextColor="#000000" />
 
     <SearchView
-        android:id="@+id/favoritesSearchView"
+        android:id="@+id/favouritesSearchView"
         android:layout_width="413dp"
         android:layout_height="38dp"
         android:layout_marginBottom="16dp"
@@ -34,7 +34,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/favoritesToolbar"
+        android:id="@+id/favouritesToolbar"
         android:layout_width="413dp"
         android:layout_height="54dp"
         android:background="?attr/colorPrimary"
@@ -45,18 +45,31 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:title="@string/favorites_txt" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/favouritesTitle"
+        android:layout_width="201dp"
+        android:layout_height="42dp"
+        android:text="@string/favourites_txt"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@+id/favouritesToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.552"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/favoritesListView"
+        android:id="@+id/favouritesListView"
         android:layout_width="411dp"
         android:layout_height="482dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favoritesSearchView"
+        app:layout_constraintTop_toBottomOf="@+id/favouritesSearchView"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -68,7 +81,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favoritesListView"
+        app:layout_constraintTop_toBottomOf="@+id/favouritesListView"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/hamburguesaFavourites"
+        android:layout_width="49dp"
+        android:layout_height="54dp"
+        android:background="?attr/colorPrimaryVariant"
+        android:contentDescription="@android:string/untitled"
+        app:layout_constraintBottom_toBottomOf="@+id/hiToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/hiToolbar"
+        app:layout_constraintTop_toBottomOf="@+id/favouritesTitle"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/hamburguesa2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
