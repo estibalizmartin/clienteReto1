@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,19 +47,19 @@ public class UserForms extends AppCompatActivity {
             switch (getIntent().getExtras().getString("fragment")){
 
                 case "sign_in":
+
                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView2, fragmentSignIn).runOnCommit(new Runnable() {
                         @Override
                         public void run() {
-                            findViewById(R.id.resetTextView).setOnClickListener(v -> {
-                                fragmentTransaction.replace(R.id.fragmentContainerView2, new ChangePasswordFragment()).commit();
-                                fragmentTransaction.addToBackStack(null);
-                                toolbarTitle.setText(getString(R.string.reset_password_txt));
-                            });
+                            sign_in_onCreate();
                         }
                     }).commit();
+
                     fragmentTransaction.addToBackStack(null);
                     break;
+
                 case "register":
+
                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView2, fragmentRegister).commit();
                     fragmentTransaction.addToBackStack(null);
                     toolbarTitle.setText(getString(R.string.register_txt));
@@ -74,5 +75,17 @@ public class UserForms extends AppCompatActivity {
     public void showErrorInForm() {
         toolbarTitle.setText(getString(R.string.error));
         new Toast(this).makeText(this, "Ocurríó un error inesperado", Toast.LENGTH_LONG).show();
+    }
+
+    public void sign_in_onCreate() {
+        findViewById(R.id.resetTextView).setOnClickListener(v -> {
+            fragmentTransaction.replace(R.id.fragmentContainerView2, new ChangePasswordFragment()).commit();
+            fragmentTransaction.addToBackStack(null);
+            toolbarTitle.setText(getString(R.string.reset_password_txt));
+        });
+
+        findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
+
+        });
     }
 }
