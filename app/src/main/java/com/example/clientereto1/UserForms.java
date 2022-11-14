@@ -55,7 +55,7 @@ public class UserForms extends AppCompatActivity {
                 break;
 
             case "register":
-                getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView2, fragmentRegister).runOnCommit(new Runnable() {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentRegister).runOnCommit(new Runnable() {
                     @Override
                     public void run() {
                         register_onCreate();
