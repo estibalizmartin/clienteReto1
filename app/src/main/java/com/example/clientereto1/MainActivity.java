@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -39,23 +40,37 @@ public class MainActivity extends AppCompatActivity {
         createMainButtons();
         ArrayList<Song> listado = new ArrayList<>();
         MyTableAdapter myTableAdapter = new MyTableAdapter (this, R.layout.myrow_layout, listado);
-        findViewById(R.id.signInButtonSignIn ).setOnClickListener( v -> {
-            if (isConnected()) {
-                SongsRequest songsRequest = new SongsRequest();
-                Thread thread = new Thread( songsRequest );
-                try {
-                    thread.start();
-                    thread.join(); // Awaiting response from the server...
-                } catch (InterruptedException e) {
-                    // Nothing to do here...
-                }
-                // Processing the answer
-                ArrayList<Song> listSongs = songsRequest.getResponse();
-                System.out.println(listSongs);
-                listado.addAll( listSongs );
-                ((ListView) findViewById( R.id.allSongsListView)).setAdapter (myTableAdapter);
-            }
+
+
+        findViewById(R.id.signInButtonHome).setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, UserForms.class);
+            intent.putExtra("fragment", "sign_in");
+            startActivity(intent);
         });
+
+        findViewById(R.id.registerButtonHome).setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, UserForms.class);
+            intent.putExtra("fragment", "register");
+            startActivity(intent);
+        });
+
+//        findViewById(R.id.signInButtonSignIn ).setOnClickListener( v -> {
+//            if (isConnected()) {
+//                SongsRequest songsRequest = new SongsRequest();
+//                Thread thread = new Thread( songsRequest );
+//                try {
+//                    thread.start();
+//                    thread.join(); // Awaiting response from the server...
+//                } catch (InterruptedException e) {
+//                    // Nothing to do here...
+//                }
+//                // Processing the answer
+//                ArrayList<Song> listSongs = songsRequest.getResponse();
+//                System.out.println(listSongs);
+//                listado.addAll( listSongs );
+//                ((ListView) findViewById( R.id.allSongsListView)).setAdapter (myTableAdapter);
+//            }
+//        });
     }
 
     public void fromMainToSingIn(){

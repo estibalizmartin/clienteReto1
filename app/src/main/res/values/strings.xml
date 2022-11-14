@@ -9,7 +9,7 @@
     <string name="favourites_txt">Favourites</string>
     <string name="favourite_songs_txt">Favourite songs</string>
     <string name="all_songs_txt">All songs</string>
-    
+    <string name="error">Error</string>
     <string name="username_txt">Username</string>
     <string name="first_name_txt">First name</string>
     <string name="last_names_txt">Last names</string>
@@ -21,4 +21,6 @@
     <string name="confirm_new_password_txt">Confirm new password</string>
     <string name="remember_me_txt">Remember me?</string>
     <string name="error_communication">error_communication</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
