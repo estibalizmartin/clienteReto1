@@ -54,23 +54,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-//        findViewById(R.id.signInButtonSignIn ).setOnClickListener( v -> {
-//            if (isConnected()) {
-//                SongsRequest songsRequest = new SongsRequest();
-//                Thread thread = new Thread( songsRequest );
-//                try {
-//                    thread.start();
-//                    thread.join(); // Awaiting response from the server...
-//                } catch (InterruptedException e) {
-//                    // Nothing to do here...
-//                }
-//                // Processing the answer
-//                ArrayList<Song> listSongs = songsRequest.getResponse();
-//                System.out.println(listSongs);
-//                listado.addAll( listSongs );
-//                ((ListView) findViewById( R.id.allSongsListView)).setAdapter (myTableAdapter);
-//            }
-//        });
+        findViewById(R.id.signInButtonSignIn ).setOnClickListener( v -> {
+            if (isConnected()) {
+                SongsRequest songsRequest = new SongsRequest();
+                Thread thread = new Thread( songsRequest );
+                try {
+                    thread.start();
+                    thread.join(); // Awaiting response from the server...
+                } catch (InterruptedException e) {
+                    // Nothing to do here...
+                }
+                // Processing the answer
+                ArrayList<Song> listSongs = songsRequest.getResponse();
+                System.out.println(listSongs);
+                listado.addAll( listSongs );
+                ((ListView) findViewById( R.id.allSongsListView)).setAdapter (myTableAdapter);
+            }
+        });
     }
 
     public void fromMainToSingIn(){

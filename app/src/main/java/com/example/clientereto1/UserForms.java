@@ -36,8 +36,6 @@ public class UserForms extends AppCompatActivity {
             finish();
         });
 
-
-
     }
 
     public void setFragmentLayout() {
@@ -70,6 +68,8 @@ public class UserForms extends AppCompatActivity {
         } else
             showErrorInForm();
     }
+
+
 
     public void showErrorInForm() {
         toolbarTitle.setText(getString(R.string.error));

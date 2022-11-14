@@ -26,7 +26,7 @@ public class SongsRequest extends NetConfiguration implements Runnable{
             url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod( "GET" );
-            System.out.println();
+            System.out.println("Hola");
             // Sending...
             int responseCode = httpURLConnection.getResponseCode();
             System.out.println("adios");
