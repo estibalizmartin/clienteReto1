@@ -54,30 +54,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public List<User> getAllUsers() {
+    public User getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
-
-        User user;
-        List<User> lista = new ArrayList<>();
-
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            user = new User();
 
+        User user = new User ();
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
             user.setUsername(cursor.getString(cursor.getColumnIndex("username")));
             user.setPassword(cursor.getString(cursor.getColumnIndex("password")));
-
-            lista.add(user);
-
-            cursor.moveToNext();
+            cursor.close();
+        } else {
+            user = null;
         }
-        cursor.close();
         db.close();
-        return lista;
+        return user;
     }
 
-    @SuppressLint("Range")
+/*    @SuppressLint("Range")
     public User getUser(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("Select * FROM " + TABLE_NAME + " WHERE username = '" + username + "'", null);
@@ -93,11 +87,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         db.close();
         return user;
-    }
+    }*/
 
-    public int deleteAllTableRows() {
+    public int deleteUser() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME + ";", null, null);
+        int query = db.delete(TABLE_NAME, null, null);
+        db.close();
+        return query;
     }
 
     public boolean isEmpty(){

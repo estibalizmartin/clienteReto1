@@ -13,6 +13,7 @@ import com.example.clientereto1.database.DatabaseHelper;
 import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
+import com.example.clientereto1.models.User;
 
 
 public class UserForms extends AppCompatActivity {
@@ -24,7 +25,6 @@ public class UserForms extends AppCompatActivity {
     TextView toolbarTitle, usernameSignIn, passwordSignIn;
     CheckBox checkRemember;
     String username, password;
-    Boolean isRemembered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +36,6 @@ public class UserForms extends AppCompatActivity {
         fragmentSignIn = new SignInFragment();
         fragmentRegister = new RegisterFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-        isRemembered = false;
 
         setFragmentLayout();
 
@@ -88,23 +86,33 @@ public class UserForms extends AppCompatActivity {
         passwordSignIn = findViewById(R.id.passwordTextViewSignIn);
         checkRemember = findViewById(R.id.rememberCheckBox);
 
-        username = usernameSignIn.getText().toString();
-        password = passwordSignIn.getText().toString();
-
         databaseHelper = new DatabaseHelper(this);
+
+        if (!databaseHelper.isEmpty()) {
+            User user = databaseHelper.getAllUsers();
+            usernameSignIn.setText(user.getUsername());
+            passwordSignIn.setText(user.getPassword());
+        }
+
+        findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
+            username = usernameSignIn.getText().toString();
+            password = passwordSignIn.getText().toString();
+
+            if (checkRemember.isChecked()) {
+                if ((!databaseHelper.isEmpty() && databaseHelper.deleteUser() == 1) || databaseHelper.isEmpty()) {
+                    if (databaseHelper.createUser(username, password)) {
+                        Toast.makeText(this, username + " created.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else {
+                databaseHelper.deleteUser();
+            }
+        });
 
         findViewById(R.id.resetTextView).setOnClickListener(v -> {
             fragmentTransaction.replace(R.id.fragmentContainerView2, new ChangePasswordFragment()).commit();
             fragmentTransaction.addToBackStack(null);
             toolbarTitle.setText(getString(R.string.reset_password_txt));
-        });
-
-        findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
-            if (checkRemember.isChecked()) {
-                if (databaseHelper.createUser(username, password)) {
-
-                }
-            }
         });
     }
 }

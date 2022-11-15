@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton resetPasswordBack;
     private ImageButton signInBack;
     private ImageButton registerBack;
-    UserForms userForms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
