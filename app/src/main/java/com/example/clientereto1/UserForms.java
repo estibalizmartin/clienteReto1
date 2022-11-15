@@ -21,7 +21,7 @@ public class UserForms extends AppCompatActivity {
     DatabaseHelper databaseHelper;
 
     FragmentTransaction fragmentTransaction;
-    Fragment fragmentSignIn, fragmentRegister;
+    Fragment fragmentSignIn, fragmentRegister, fragmentChangePassword;
     TextView toolbarTitle, usernameSignIn, passwordSignIn;
     CheckBox checkRemember;
     String username, password;
@@ -33,8 +33,10 @@ public class UserForms extends AppCompatActivity {
         getSupportActionBar().hide();
 
         toolbarTitle = findViewById(R.id.userFormTitle);
+
         fragmentSignIn = new SignInFragment();
         fragmentRegister = new RegisterFragment();
+        fragmentChangePassword = new ChangePasswordFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         setFragmentLayout();
@@ -42,39 +44,47 @@ public class UserForms extends AppCompatActivity {
         findViewById(R.id.userFormBack).setOnClickListener(v -> {
             finish();
         });
+
+        String fragment = (getIntent().getExtras() != null) ? getIntent().getExtras().getString("fragment") : "";
+        setFragmentLayout(fragment);
     }
 
-    public void setFragmentLayout() {
+    public void setFragmentLayout(String fragment) {
 
-        if(getIntent().getExtras() != null) {
-            switch (getIntent().getExtras().getString("fragment")){
+        switch (fragment) {
+            case "sign_in":
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentSignIn).runOnCommit(new Runnable() {
+                    @Override
+                    public void run() {
+                        sign_in_onCreate();
+                    }
+                }).commit();
 
-                case "sign_in":
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView2, fragmentSignIn).runOnCommit(new Runnable() {
-                        @Override
-                        public void run() {
-                            sign_in_onCreate();
-                        }
-                    }).commit();
+                fragmentTransaction.addToBackStack(null);
+                toolbarTitle.setText(getString(R.string.sign_in_txt));
+                break;
 
-                    fragmentTransaction.addToBackStack(null);
-                    break;
+            case "register":
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentRegister).runOnCommit(new Runnable() {
+                    @Override
+                    public void run() {
+                        register_onCreate();
+                    }
+                }).commit();
 
-                case "register":
+                fragmentTransaction.addToBackStack(null);
+                toolbarTitle.setText(getString(R.string.register_txt));
+                break;
 
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView2, fragmentRegister).commit();
-                    fragmentTransaction.addToBackStack(null);
-                    toolbarTitle.setText(getString(R.string.register_txt));
-                    break;
-                default:
-                    showErrorInForm();
-                    break;
-            }
-        } else
-            showErrorInForm();
+            default:
+                showErrorInForm();
+                break;
+        }
+
+        findViewById(R.id.userFormBack).setOnClickListener(v -> {
+            finish();
+        });
     }
-
-
 
     public void showErrorInForm() {
         toolbarTitle.setText(getString(R.string.error));
@@ -110,9 +120,25 @@ public class UserForms extends AppCompatActivity {
         });
 
         findViewById(R.id.resetTextView).setOnClickListener(v -> {
-            fragmentTransaction.replace(R.id.fragmentContainerView2, new ChangePasswordFragment()).commit();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentChangePassword).runOnCommit(new Runnable() {
+                @Override
+                public void run() {
+                    changePassword_onCreate();
+                }
+            }).commit();
+
             fragmentTransaction.addToBackStack(null);
             toolbarTitle.setText(getString(R.string.reset_password_txt));
+        });
+
+    public void register_onCreate() {
+
+    }
+
+    public void changePassword_onCreate() {
+        findViewById(R.id.userFormBack).setOnClickListener(v -> {
+            setFragmentLayout("sign_in");
         });
     }
 }
