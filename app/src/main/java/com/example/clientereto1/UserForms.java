@@ -4,21 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.clientereto1.database.DatabaseHelper;
 import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
+import com.example.clientereto1.models.User;
+
 
 public class UserForms extends AppCompatActivity {
 
+    DatabaseHelper databaseHelper;
+
     FragmentTransaction fragmentTransaction;
     Fragment fragmentSignIn, fragmentRegister, fragmentChangePassword;
-    TextView toolbarTitle;
+    TextView toolbarTitle, usernameSignIn, passwordSignIn;
+    CheckBox checkRemember;
+    String username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +39,19 @@ public class UserForms extends AppCompatActivity {
         fragmentChangePassword = new ChangePasswordFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
+        setFragmentLayout();
+
+        findViewById(R.id.userFormBack).setOnClickListener(v -> {
+            finish();
+        });
+
         String fragment = (getIntent().getExtras() != null) ? getIntent().getExtras().getString("fragment") : "";
         setFragmentLayout(fragment);
-
     }
 
     public void setFragmentLayout(String fragment) {
 
-        switch (fragment){
-
+        switch (fragment) {
             case "sign_in":
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentSignIn).runOnCommit(new Runnable() {
                     @Override
@@ -82,6 +92,33 @@ public class UserForms extends AppCompatActivity {
     }
 
     public void sign_in_onCreate() {
+        usernameSignIn = findViewById(R.id.usernameTextViewSignIn);
+        passwordSignIn = findViewById(R.id.passwordTextViewSignIn);
+        checkRemember = findViewById(R.id.rememberCheckBox);
+
+        databaseHelper = new DatabaseHelper(this);
+
+        if (!databaseHelper.isEmpty()) {
+            User user = databaseHelper.getAllUsers();
+            usernameSignIn.setText(user.getUsername());
+            passwordSignIn.setText(user.getPassword());
+        }
+
+        findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
+            username = usernameSignIn.getText().toString();
+            password = passwordSignIn.getText().toString();
+
+            if (checkRemember.isChecked()) {
+                if ((!databaseHelper.isEmpty() && databaseHelper.deleteUser() == 1) || databaseHelper.isEmpty()) {
+                    if (databaseHelper.createUser(username, password)) {
+                        Toast.makeText(this, username + " created.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else {
+                databaseHelper.deleteUser();
+            }
+        });
+
         findViewById(R.id.resetTextView).setOnClickListener(v -> {
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentChangePassword).runOnCommit(new Runnable() {
@@ -94,11 +131,6 @@ public class UserForms extends AppCompatActivity {
             fragmentTransaction.addToBackStack(null);
             toolbarTitle.setText(getString(R.string.reset_password_txt));
         });
-
-        findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
-            //submit del formulario
-        });
-    }
 
     public void register_onCreate() {
 
