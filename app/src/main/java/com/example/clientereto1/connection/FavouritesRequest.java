@@ -8,18 +8,15 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
-public class SongsRequest extends NetConfiguration implements Runnable{
-
-    private final String theUrl = theBaseUrl + "/songs";
+public class FavouritesRequest extends NetConfiguration implements Runnable{
+    int idUser = 1;
+    private final String theUrl = theBaseUrl + "/favorites/"+idUser+"/user";
     private ArrayList<Song> response;
     @Override
     public void run() {
-
         try {
             // The URL
             URL url = null;
@@ -72,3 +69,4 @@ public class SongsRequest extends NetConfiguration implements Runnable{
         return response;
     }
 }
+
