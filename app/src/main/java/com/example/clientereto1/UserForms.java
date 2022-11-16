@@ -10,9 +10,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.clientereto1.database.DatabaseHelper;
 import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
+import com.example.clientereto1.models.User;
 
 public class UserForms extends AppCompatActivity {
 
@@ -78,14 +80,41 @@ public class UserForms extends AppCompatActivity {
     }
 
     public void sign_in_onCreate() {
+        TextView usernameSignIn = findViewById(R.id.usernameTextViewSignIn);
+        TextView passwordSignIn = findViewById(R.id.passwordTextViewSignIn);
+        CheckBox checkRemember = findViewById(R.id.rememberCheckBox);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+        if (!databaseHelper.isEmpty()) {
+            User user = databaseHelper.getAllUsers();
+            usernameSignIn.setText(user.getUsername());
+            passwordSignIn.setText(user.getPassword());
+        }
+
+        findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
+            String username = usernameSignIn.getText().toString();
+            String password = passwordSignIn.getText().toString();
+
+            if (checkRemember.isChecked()) {
+                if ((!databaseHelper.isEmpty() && databaseHelper.deleteUser() == 1) || databaseHelper.isEmpty()) {
+                    if (databaseHelper.createUser(username, password)) {
+                        Toast.makeText(this, username + " created.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else {
+                databaseHelper.deleteUser();
+            }
+        });
+
         findViewById(R.id.resetTextView).setOnClickListener(v -> {
-            fragmentTransaction.replace(R.id.fragmentContainerView2, new ChangePasswordFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, new ChangePasswordFragment()).runOnCommit(() -> changePassword_onCreate()).commit();
+
             fragmentTransaction.addToBackStack(null);
             toolbarTitle.setText(getString(R.string.reset_password_txt));
         });
+    }
 
-        findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
-
-        });
+    private void changePassword_onCreate() {
     }
 }

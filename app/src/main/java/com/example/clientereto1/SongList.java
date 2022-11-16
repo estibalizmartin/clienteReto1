@@ -10,10 +10,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.clientereto1.adapters.MyTableAdapter;
-import com.example.clientereto1.connection.FavouritesRequest;
-import com.example.clientereto1.connection.SongsRequest;
-import com.example.clientereto1.models.Song;
+import com.example.clientereto1.network.FavouritesRequest;
 import com.example.clientereto1.network.SongsRequest;
+import com.example.clientereto1.models.Song;
 
 import java.util.ArrayList;
 
