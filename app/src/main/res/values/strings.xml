@@ -21,6 +21,7 @@
     <string name="confirm_new_password_txt">Confirm new password</string>
     <string name="remember_me_txt">Remember me?</string>
     <string name="error_communication">error_communication</string>
+    <string name="play">Play</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

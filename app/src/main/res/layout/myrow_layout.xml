@@ -1,39 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/lightgrey"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/songIdTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Son ID"
-        tools:ignore="TextContrastCheck" />
+        android:paddingTop="15dp">
 
-    <TextView
-        android:id="@+id/songTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Song title"
-        tools:ignore="TextContrastCheck" />
+        <TextView
+            android:id="@+id/songTitleTextView"
+            android:layout_width="300dp"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:paddingLeft="15dp"
+            android:text="Song title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
-    <TextView
-        android:id="@+id/songAuthorTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Song author"
-        tools:ignore="TextContrastCheck" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="TODO"
+            android:paddingEnd="0dp"
+            app:srcCompat="@android:drawable/btn_star" />
+    </TableRow>
 
-    <TextView
-        android:id="@+id/songUrlTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/songIdTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Song ID"
+            android:visibility="gone"
+            tools:ignore="TextContrastCheck" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/songAuthorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:paddingLeft="15dp"
+            android:text="Song author"
+            android:textSize="18sp"
+            tools:ignore="TextContrastCheck" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Song URL"
-        tools:ignore="TextContrastCheck" />
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+
+        <TextView
+            android:id="@+id/songUrlTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Song URL"
+            android:visibility="gone"
+            tools:ignore="TextContrastCheck" />
+
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="70dp"
+            app:cornerRadius="8dp"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:contentDescription="@android:string/untitled"
+            android:gravity="center"
+            android:minHeight="28dp"
+            android:translationX="15dp"
+            app:srcCompat="@android:drawable/ic_media_play"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </TableRow>
 
 </LinearLayout>
