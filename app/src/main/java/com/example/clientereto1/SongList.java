@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,10 +13,11 @@ import com.example.clientereto1.adapters.MyTableAdapter;
 import com.example.clientereto1.connection.FavouritesRequest;
 import com.example.clientereto1.connection.SongsRequest;
 import com.example.clientereto1.models.Song;
+import com.example.clientereto1.network.SongsRequest;
 
 import java.util.ArrayList;
 
-public class Songs extends AppCompatActivity {
+public class SongList extends AppCompatActivity {
     ArrayList<Song> listado;
 
     @Override

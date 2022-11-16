@@ -5,18 +5,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.clientereto1.connection.FavouritesRequest;
 import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
-import com.example.clientereto1.models.Song;
 
 public class UserForms extends AppCompatActivity {
 
@@ -89,9 +85,7 @@ public class UserForms extends AppCompatActivity {
         });
 
         findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
-            Intent intent = new Intent(UserForms.this, Songs.class);
-            UserForms.this.startActivity(intent);
-            finish();
+
         });
     }
 }

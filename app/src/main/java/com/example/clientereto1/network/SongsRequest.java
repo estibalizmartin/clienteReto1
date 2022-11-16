@@ -1,4 +1,4 @@
-package com.example.clientereto1.connection;
+package com.example.clientereto1.network;
 
 import com.example.clientereto1.models.Song;
 
@@ -8,10 +8,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SongsRequest extends NetConfiguration implements Runnable{
 
