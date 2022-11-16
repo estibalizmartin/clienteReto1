@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class UserForms extends AppCompatActivity {
 
                 case "sign_in":
 
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView2, fragmentSignIn).runOnCommit(new Runnable() {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentSignIn).runOnCommit(new Runnable() {
                         @Override
                         public void run() {
                             sign_in_onCreate();
@@ -60,7 +61,7 @@ public class UserForms extends AppCompatActivity {
 
                 case "register":
 
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView2, fragmentRegister).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView2, fragmentRegister).commit();
                     fragmentTransaction.addToBackStack(null);
                     toolbarTitle.setText(getString(R.string.register_txt));
                     break;
@@ -93,6 +94,8 @@ public class UserForms extends AppCompatActivity {
         }
 
         findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
+            Intent intent = new Intent(this, SongList.class);
+            startActivity(intent);
             String username = usernameSignIn.getText().toString();
             String password = passwordSignIn.getText().toString();
 
@@ -105,6 +108,25 @@ public class UserForms extends AppCompatActivity {
             } else {
                 databaseHelper.deleteUser();
             }
+            if(     username != ""
+                    && password != ""
+                    && username != null
+                    && password != null
+                    && username.length() >= 5
+                    && username.length() <= 70
+                    && password.length() >=5
+                    && password.length() <= 70){
+                System.out.println("adios");
+
+                System.out.println("hola");
+                //finish();
+                System.out.println("QUE TAL");
+            }else{
+                Toast.makeText(this, "Hay algún error en el usuario o la contraseña", Toast.LENGTH_SHORT).show();
+                /*findViewById(R.id.usernameTextViewSignIn).setBackgroundResource(R.color.red);
+                findViewById(R.id.passwordTextViewSignIn).setBackgroundResource(R.color.red);*/
+            }
+
         });
 
         findViewById(R.id.resetTextView).setOnClickListener(v -> {
