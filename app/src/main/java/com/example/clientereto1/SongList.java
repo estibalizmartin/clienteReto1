@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.clientereto1.adapters.MyTableAdapter;
+import com.example.clientereto1.network.CreateUserRequest;
 import com.example.clientereto1.network.FavouritesRequest;
 import com.example.clientereto1.network.SongsRequest;
 import com.example.clientereto1.models.Song;
@@ -25,7 +26,14 @@ public class SongList extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.layout_community);
         listado = new ArrayList<>();
-        makeRequest(new SongsRequest());
+        //makeRequest(new SongsRequest());
+        makeRequest(new CreateUserRequest("{" +
+                "\"username\": \"prueba10\"," +
+                "\"firstname\": \"prueba10\"," +
+                "\"lastnames\": \"prueba10\"," +
+                "\"email\": \"prueba10@gmail.com\"," +
+                "\"password\": \"123456\"" +
+                "}"));
     }
     public boolean isConnected() {
         boolean ret = false;
@@ -91,6 +99,25 @@ public class SongList extends AppCompatActivity {
             findViewById(R.id.allSongsButton).setOnClickListener(view -> {
                 makeRequest(new SongsRequest());
             });
+        }
+    }
+
+    public void makeRequest(CreateUserRequest createUserRequest) {
+        if (isConnected()) {
+
+            Thread thread = new Thread(createUserRequest);
+            try {
+                thread.start();
+                thread.join(); // Awaiting response from the server...
+            } catch (InterruptedException e) {
+                // Nothing to do here...
+            }
+            // Processing the answer
+            ArrayList<?> response = createUserRequest.getResponse();
+
+            System.out.println("Respuesta register: " + response);
+
+
         }
     }
 }
