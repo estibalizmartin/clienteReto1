@@ -1,6 +1,7 @@
 package com.example.clientereto1.network;
 
 import com.example.clientereto1.models.Song;
+import com.example.clientereto1.network.NetConfiguration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
