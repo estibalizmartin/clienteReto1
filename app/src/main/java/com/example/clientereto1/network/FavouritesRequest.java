@@ -1,4 +1,4 @@
-package com.example.clientereto1.network;
+package com.example.clientereto1.connection;
 
 import com.example.clientereto1.models.Song;
 
@@ -11,13 +11,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class SongsRequest extends NetConfiguration implements Runnable{
-
-    private final String theUrl = theBaseUrl + "/songs";
+public class FavouritesRequest extends NetConfiguration implements Runnable{
+    int idUser = 1;
+    private final String theUrl = theBaseUrl + "/favorites/"+idUser+"/user";
     private ArrayList<Song> response;
     @Override
     public void run() {
-
         try {
             // The URL
             URL url = null;
@@ -70,3 +69,4 @@ public class SongsRequest extends NetConfiguration implements Runnable{
         return response;
     }
 }
+
