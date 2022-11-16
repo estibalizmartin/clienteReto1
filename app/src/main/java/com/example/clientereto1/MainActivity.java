@@ -8,11 +8,16 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.clientereto1.adapters.MyTableAdapter;
+import com.example.clientereto1.models.Song;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton resetPasswordBack;
     private ImageButton signInBack;
     private ImageButton registerBack;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
