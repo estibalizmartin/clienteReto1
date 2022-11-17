@@ -24,10 +24,8 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
             url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod( "GET" );
-            System.out.println("Hola");
             // Sending...
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println("adios");
             if (responseCode == 513){
                 // No se han podido cargar las canciones
                 this.response = null;

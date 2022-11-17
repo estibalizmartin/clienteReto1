@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,7 +96,7 @@ public class UserForms extends AppCompatActivity {
 
         findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
             Intent intent = new Intent(this, SongList.class);
-            startActivity(intent);
+
             String username = usernameSignIn.getText().toString();
             String password = passwordSignIn.getText().toString();
 
@@ -108,24 +109,24 @@ public class UserForms extends AppCompatActivity {
             } else {
                 databaseHelper.deleteUser();
             }
-            if(     username != ""
-                    && password != ""
-                    && username != null
-                    && password != null
-                    && username.length() >= 5
-                    && username.length() <= 70
-                    && password.length() >=5
-                    && password.length() <= 70){
-                System.out.println("adios");
 
-                System.out.println("hola");
-                //finish();
-                System.out.println("QUE TAL");
-            }else{
-                Toast.makeText(this, "Hay algún error en el usuario o la contraseña", Toast.LENGTH_SHORT).show();
-                /*findViewById(R.id.usernameTextViewSignIn).setBackgroundResource(R.color.red);
-                findViewById(R.id.passwordTextViewSignIn).setBackgroundResource(R.color.red);*/
-            }
+                if(username == "" || username == null){
+                    ((EditText) findViewById(R.id.usernameTextViewSignIn)).setError("Este campo no puede estar vacío");
+                }
+                if(username.length() < 5 || username.length() > 70){
+                    ((EditText) findViewById(R.id.usernameTextViewSignIn)).setError("Este campo tiene que contener más de 5 caracteres");
+                }
+                if(password == "" || password == null){
+                    ((EditText) findViewById(R.id.passwordTextViewSignIn)).setError("Este campo no puede estar vacío");
+                }
+                if(password.length() < 5 || password.length() > 70){
+                    ((EditText) findViewById(R.id.passwordTextViewSignIn)).setError("Este campo tiene que contener más de 5 caracteres");
+                }else{
+                    startActivity(intent);
+
+                    finish();
+                //Toast.makeText(this, "Hay algún error en el usuario o la contraseña", Toast.LENGTH_SHORT).show();
+        }
 
         });
 
