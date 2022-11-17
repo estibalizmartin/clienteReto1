@@ -1,33 +1,47 @@
 package com.example.clientereto1.network;
 
 import com.example.clientereto1.models.Song;
-import com.example.clientereto1.network.NetConfiguration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class FavouritesRequest extends NetConfiguration implements Runnable{
+public class CreateUserRequest extends NetConfiguration implements Runnable{
 
-    //EL ID LE LLEGA DESDE ANDROID
-    int idUser = 1;
-    private final String theUrl = theBaseUrl + "/favorites/"+idUser+"/user";
+    private final String theUrl = theBaseUrl + "/auth/signup";
     private ArrayList<Song> response;
+    private String userDataJson;
+
+    public CreateUserRequest (String userDataJson) {
+        this.userDataJson = userDataJson;
+    }
+
     @Override
     public void run() {
         try {
-            // The URL
-            URL url = null;
-            url = new URL( theUrl);
+            System.out.println(theUrl);
+            URL url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod( "GET" );
-            // Sending...
+            httpURLConnection.setRequestMethod( "POST" );
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+
+            System.out.println(userDataJson);
+            httpURLConnection.setDoOutput(true);
+            try(OutputStream os = httpURLConnection.getOutputStream()) {
+                byte[] input = userDataJson.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+
             int responseCode = httpURLConnection.getResponseCode();
+            System.out.println(httpURLConnection.getResponseCode());
+
             if (responseCode == 513){
                 // No se han podido cargar las canciones
                 this.response = null;
@@ -69,5 +83,5 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
     public ArrayList<Song> getResponse() {
         return response;
     }
-}
 
+}
