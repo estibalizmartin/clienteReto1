@@ -41,4 +41,5 @@ public class UserRequest extends NetConfiguration implements Runnable{
         }
     }
     public int getResponse(){return response;}
+    //ArrayList de dos posiciones: una booleano y la otra mensaje con el motivo
 }
