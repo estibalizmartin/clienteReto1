@@ -1,6 +1,11 @@
 package com.example.clientereto1.network;
 
+import android.content.res.Resources;
+
+import com.example.clientereto1.MainActivity;
+import com.example.clientereto1.R;
 import com.example.clientereto1.models.Song;
+import com.example.clientereto1.models.UserResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,12 +16,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import android.content.res.Resources;
 
 public class CreateUserRequest extends NetConfiguration implements Runnable{
 
     private final String theUrl = theBaseUrl + "/auth/signup";
-    private int response;
+    private UserResponse response;
     private String userDataJson;
+    public static Resources res;
 
     public CreateUserRequest (String userDataJson) {
         this.userDataJson = userDataJson;
@@ -26,13 +33,13 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
     public void run() {
         try {
 
-            URL url = new URL( theUrl);
+            URL url = new URL(theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod( "POST" );
+            httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
 
             httpURLConnection.setDoOutput(true);
-            try(OutputStream os = httpURLConnection.getOutputStream()) {
+            try (OutputStream os = httpURLConnection.getOutputStream()) {
                 byte[] input = userDataJson.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
@@ -40,10 +47,19 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
             int responseCode = httpURLConnection.getResponseCode();
             System.out.println(responseCode);
 
-            if (responseCode == 432){
+            this.response = new UserResponse();
 
-                this.response = 0;
-            }else if(responseCode == HttpURLConnection.HTTP_OK){
+            if (responseCode == 432) {
+
+                this.response.setAccess(false);
+                this.response.setMessage(res.getString(R.string.user_already_exists));
+
+            } else if (responseCode == 400) {
+
+                this.response.setAccess(false);
+                this.response.setMessage(res.getString(R.string.request_error));
+
+            }   if(responseCode == HttpURLConnection.HTTP_OK){
 
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );
@@ -54,7 +70,8 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
                 }
                 bufferedReader.close();
 
-                this.response = Integer.parseInt(response.toString());
+                this.response.setAccess(true);
+                this.response.setMessage(res.getString(R.string.user_created));
 
             }
         } catch (Exception e) {
@@ -63,7 +80,7 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
         }
 
     }
-    public int getResponse() {
+    public UserResponse getResponse() {
         return response;
     }
 

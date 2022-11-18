@@ -18,6 +18,7 @@ import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
 import com.example.clientereto1.models.User;
+import com.example.clientereto1.models.UserResponse;
 import com.example.clientereto1.network.CreateUserRequest;
 import com.example.clientereto1.network.NetConfiguration;
 import com.example.clientereto1.network.NetworkUtilites;
@@ -162,7 +163,15 @@ public class UserForms extends AppCompatActivity {
             if (registerFormIsValid()) {
                 System.out.println("Formulario  Válido");
                 String userDataJson = generateUserJson();
-                new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson));
+                UserResponse response = new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson));
+                System.out.println(response);
+                if (response == null)
+                    Toast.makeText(this, getString(R.string.request_error), Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(this, getString(R.string.user_created), Toast.LENGTH_LONG).show();
+                    setFragmentLayout("sign_in");
+                }
+
             }
         });
     }
