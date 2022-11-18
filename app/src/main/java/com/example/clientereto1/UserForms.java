@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
@@ -104,6 +105,8 @@ public class UserForms extends AppCompatActivity {
         }
 
         findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
+            Intent intent = new Intent(this, SongList.class);
+
             String username = usernameSignIn.getText().toString();
             String password = passwordSignIn.getText().toString();
 
@@ -116,6 +119,25 @@ public class UserForms extends AppCompatActivity {
             } else {
                 databaseHelper.deleteUser();
             }
+
+                if(username == "" || username == null){
+                    ((EditText) findViewById(R.id.usernameTextViewSignIn)).setError("Este campo no puede estar vacío");
+                }
+                if(username.length() < 5 || username.length() > 70){
+                    ((EditText) findViewById(R.id.usernameTextViewSignIn)).setError("Este campo tiene que contener más de 5 caracteres");
+                }
+                if(password == "" || password == null){
+                    ((EditText) findViewById(R.id.passwordTextViewSignIn)).setError("Este campo no puede estar vacío");
+                }
+                if(password.length() < 5 || password.length() > 70){
+                    ((EditText) findViewById(R.id.passwordTextViewSignIn)).setError("Este campo tiene que contener más de 5 caracteres");
+                }else{
+                    startActivity(intent);
+
+                    finish();
+                //Toast.makeText(this, "Hay algún error en el usuario o la contraseña", Toast.LENGTH_SHORT).show();
+        }
+
         });
 
         findViewById(R.id.resetTextView).setOnClickListener(v -> {
