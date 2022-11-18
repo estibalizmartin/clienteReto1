@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_in_txt">Inicio de sesión</string>
+    <string name="register_txt">Registro</string>
+    <string name="reset_password_txt">Restablecer contraseña</string>
+    <string name="reset_txt">Restablecer</string>
+    <string name="community_txt">Comunidad</string>
+    <string name="hi_user_txt">Hola,&#160;</string>
+    <string name="favourites_txt">Favoritos</string>
+    <string name="favourite_songs_txt">Canciones favoritas</string>
+    <string name="all_songs_txt">Todas las canciones</string>
+    <string name="error">Error</string>
+    <string name="username_txt">Nombre de usuario</string>
+    <string name="first_name_txt">Nombre</string>
+    <string name="last_names_txt">Apellidos</string>
+    <string name="email_txt">Correo electrónico</string>
+    <string name="password_txt">Contraseña</string>
+    <string name="confirm_password_txt">Confirmar contraseña</string>
+    <string name="old_password_txt">Antigua contraseña</string>
+    <string name="new_password_txt">Nueva contraseña</string>
+    <string name="confirm_new_password_txt">Confirmar nueva contraseña</string>
+    <string name="remember_me_txt">¿Recordarme?</string>
+    <string name="error_communication">error_comunicación</string>
+    <string name="empty_form_field">Este campo no puede estar vacío</string>
+    <string name="short_form_filed">"Este campo debe tener al menos "</string>
+    <string name="character">caracteres</string>
+    <string name="email_required_form_field">Introduce un correo electrónico válido</string>
+    <string name="passwords_do_not_match">Las contraseñas no coinciden</string>
+    <string name="play">Reproducir</string>
+    <string name="hello_blank_fragment">Hola fragmento vacío</string>
+</resources>
