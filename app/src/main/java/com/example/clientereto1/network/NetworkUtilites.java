@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.clientereto1.R;
 import com.example.clientereto1.adapters.MyTableAdapter;
 import com.example.clientereto1.models.Song;
+import com.example.clientereto1.models.UserResponse;
 
 import java.util.ArrayList;
 
@@ -76,6 +77,27 @@ public class NetworkUtilites {
 
         } else
             return 0;
+    }
+    public UserResponse makeRequest(LoginRequest loginRequest) {
+        if (isConnected()) {
+
+            Thread thread = new Thread(loginRequest);
+            try {
+                thread.start();
+                thread.join(); // Awaiting response from the server...
+            } catch (InterruptedException e) {
+                // Nothing to do here...
+            }
+            // Processing the answer
+            UserResponse response = loginRequest.getResponse();
+
+            System.out.println("Respuesta login: " + response);
+
+            return response;
+
+
+        } else
+            return null;
     }
 
 

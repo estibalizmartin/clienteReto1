@@ -19,6 +19,7 @@ import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
 import com.example.clientereto1.models.User;
 import com.example.clientereto1.network.CreateUserRequest;
+import com.example.clientereto1.network.LoginRequest;
 import com.example.clientereto1.network.NetConfiguration;
 import com.example.clientereto1.network.NetworkUtilites;
 
@@ -132,7 +133,10 @@ public class UserForms extends AppCompatActivity {
                 if(password.length() < 5 || password.length() > 70){
                     ((EditText) findViewById(R.id.passwordTextViewSignIn)).setError("Este campo tiene que contener más de 5 caracteres");
                 }else{
-                    startActivity(intent);
+
+
+                    System.out.println(new NetworkUtilites(this).makeRequest(new LoginRequest(generateLoginJson())).getId());
+                    //startActivity(intent);
 
                     finish();
                 //Toast.makeText(this, "Hay algún error en el usuario o la contraseña", Toast.LENGTH_SHORT).show();
@@ -161,7 +165,7 @@ public class UserForms extends AppCompatActivity {
             System.out.println("Entro");
             if (registerFormIsValid()) {
                 System.out.println("Formulario  Válido");
-                String userDataJson = generateUserJson();
+                String userDataJson = generateRegisterJson();
                 new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson));
             }
         });
@@ -214,13 +218,20 @@ public class UserForms extends AppCompatActivity {
         return true;
     }
 
-    public String generateUserJson() {
+    public String generateRegisterJson() {
         return  "{" +
                 "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewRegister)).getText().toString() + "\"," +
                 "\"firstname\": \"" + ((EditText) findViewById(R.id.firstNameTextViewRegister)).getText().toString() + "\"," +
                 "\"lastnames\": \"" + ((EditText) findViewById(R.id.lastNamesTextViewRegister)).getText().toString() + "\"," +
                 "\"email\": \"" + ((EditText) findViewById(R.id.emailTextViewRegister)).getText().toString() + "\"," +
                 "\"password\": \"" + ((EditText) findViewById(R.id.passwordTextViewRegister)).getText().toString() + "\"" +
+                "}";
+    }
+
+    public String generateLoginJson() {
+        return  "{" +
+                "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewSignIn)).getText().toString() + "\"," +
+                "\"password\": \"" + ((EditText) findViewById(R.id.passwordTextViewSignIn)).getText().toString() + "\"" +
                 "}";
     }
 
