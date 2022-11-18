@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.clientereto1.adapters.MyTableAdapter;
 import com.example.clientereto1.network.CreateUserRequest;
 import com.example.clientereto1.network.FavouritesRequest;
+import com.example.clientereto1.network.NetworkUtilites;
 import com.example.clientereto1.network.SongsRequest;
 import com.example.clientereto1.models.Song;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 public class SongList extends AppCompatActivity {
     ArrayList<Song> listado;
+    NetworkUtilites networkUtilites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,98 +28,32 @@ public class SongList extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.layout_community);
         listado = new ArrayList<>();
-        //makeRequest(new SongsRequest());
-        makeRequest(new CreateUserRequest("{" +
-                "\"username\": \"prueba10\"," +
-                "\"firstname\": \"prueba10\"," +
-                "\"lastnames\": \"prueba10\"," +
-                "\"email\": \"prueba10@gmail.com\"," +
-                "\"password\": \"123456\"" +
-                "}"));
-    }
-    public boolean isConnected() {
-        boolean ret = false;
-        try {
+        networkUtilites = new NetworkUtilites(SongList.this);
 
-            ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
-                    .getSystemService( Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if ((networkInfo != null) && (networkInfo.isAvailable()) && (networkInfo.isConnected()))
-                ret = true;
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), getString(R.string.error_communication), Toast.LENGTH_SHORT).show();
-        }
-        return ret;
+        makeSongRequest();
     }
 
-    public void makeRequest(SongsRequest songsRequest) {
-        if (isConnected()) {
+    public void makeSongRequest() {
+        listado = networkUtilites.makeRequest(new SongsRequest());
 
-            Thread thread = new Thread(songsRequest);
-            try {
-                thread.start();
-                thread.join(); // Awaiting response from the server...
-            } catch (InterruptedException e) {
-                // Nothing to do here...
-            }
-            // Processing the answer
-            ArrayList<Song> listSongs = songsRequest.getResponse();
+        setContentView(R.layout.layout_community);
+        ((ListView) findViewById( R.id.allSongsListView)).setAdapter (new MyTableAdapter(this, R.layout.myrow_layout, listado));
 
-            listado = new ArrayList();
-            listado.addAll( listSongs );
-
-            setContentView(R.layout.layout_community);
-            ((ListView) findViewById( R.id.allSongsListView)).setAdapter (new MyTableAdapter(this, R.layout.myrow_layout, listado));
-
-            //Para ir a favoritos
-            findViewById(R.id.favoritesButton).setOnClickListener(view -> {
-                makeRequest(new FavouritesRequest());
-            });
-        }
+        //Para ir a favoritos
+        findViewById(R.id.favoritesButton).setOnClickListener(view -> {
+            makeFavouritesRequest();
+        });
     }
 
-    public void makeRequest(FavouritesRequest favouritesRequest) {
-        if (isConnected()) {
+    public void makeFavouritesRequest(){
+        listado = networkUtilites.makeRequest(new FavouritesRequest());
 
-            Thread thread = new Thread(favouritesRequest);
-            try {
-                thread.start();
-                thread.join(); // Awaiting response from the server...
-            } catch (InterruptedException e) {
-                // Nothing to do here...
-            }
-            // Processing the answer
-            ArrayList<Song> listSongs = favouritesRequest.getResponse();
+        setContentView(R.layout.layout_favourites);
+        ((ListView) findViewById( R.id.favouritesListView)).setAdapter (new MyTableAdapter (this, R.layout.myrow_layout, listado));
 
-            listado = new ArrayList();
-            listado.addAll( listSongs );
-
-            setContentView(R.layout.layout_favourites);
-            ((ListView) findViewById( R.id.favouritesListView)).setAdapter (new MyTableAdapter (this, R.layout.myrow_layout, listado));
-
-            //Para ir a community
-            findViewById(R.id.allSongsButton).setOnClickListener(view -> {
-                makeRequest(new SongsRequest());
-            });
-        }
-    }
-
-    public void makeRequest(CreateUserRequest createUserRequest) {
-        if (isConnected()) {
-
-            Thread thread = new Thread(createUserRequest);
-            try {
-                thread.start();
-                thread.join(); // Awaiting response from the server...
-            } catch (InterruptedException e) {
-                // Nothing to do here...
-            }
-            // Processing the answer
-            ArrayList<?> response = createUserRequest.getResponse();
-
-            System.out.println("Respuesta register: " + response);
-
-
-        }
+        //Para ir a community
+        findViewById(R.id.allSongsButton).setOnClickListener(v -> {
+            makeSongRequest();
+        });
     }
 }

@@ -21,6 +21,11 @@
     <string name="confirm_new_password_txt">Confirm new password</string>
     <string name="remember_me_txt">Remember me?</string>
     <string name="error_communication">error_communication</string>
+    <string name="empty_form_field">This field cannot be empty</string>
+    <string name="short_form_filed">This filed must have at least</string>
+    <string name="character">characters</string>
+    <string name="email_required_form_field">This field should be a valid email</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
     <string name="play">Play</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

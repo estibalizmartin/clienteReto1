@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.registerButtonHome).setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, SongList.class);
+            Intent intent = new Intent(MainActivity.this, UserForms.class);
             intent.putExtra("fragment", "register");
             startActivity(intent);
         });

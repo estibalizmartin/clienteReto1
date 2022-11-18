@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class CreateUserRequest extends NetConfiguration implements Runnable{
 
     private final String theUrl = theBaseUrl + "/auth/signup";
-    private ArrayList<Song> response;
+    private int response;
     private String userDataJson;
 
     public CreateUserRequest (String userDataJson) {
@@ -25,27 +25,26 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
     @Override
     public void run() {
         try {
-            System.out.println(theUrl);
+
             URL url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod( "POST" );
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
 
-            System.out.println(userDataJson);
             httpURLConnection.setDoOutput(true);
             try(OutputStream os = httpURLConnection.getOutputStream()) {
                 byte[] input = userDataJson.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
-
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(httpURLConnection.getResponseCode());
+            System.out.println(responseCode);
 
-            if (responseCode == 513){
-                // No se han podido cargar las canciones
-                this.response = null;
+            if (responseCode == 432){
+
+                this.response = 0;
             }else if(responseCode == HttpURLConnection.HTTP_OK){
+
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );
                 StringBuffer response = new StringBuffer();
@@ -55,24 +54,8 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
                 }
                 bufferedReader.close();
 
-                // Processing the JSON...
-                String theUnprocessedJSON = response.toString();
+                this.response = Integer.parseInt(response.toString());
 
-                JSONArray jsonArray = new JSONArray (theUnprocessedJSON);
-
-                this.response = new ArrayList<Song>();
-
-                Song song;
-                for(int i=0; i < jsonArray.length(); i++) {
-                    JSONObject object = jsonArray.getJSONObject( i );
-
-                    song = new Song();
-                    song.setId(object.getInt("id"));
-                    song.setAuthor(object.getString("author"));
-                    song.setTitle( object.getString("title"));
-                    song.setUrl( object.getString("url"));
-                    this.response.add( song );
-                }
             }
         } catch (Exception e) {
             System.out.println("entro porque he fallado");
@@ -80,7 +63,7 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
         }
 
     }
-    public ArrayList<Song> getResponse() {
+    public int getResponse() {
         return response;
     }
 

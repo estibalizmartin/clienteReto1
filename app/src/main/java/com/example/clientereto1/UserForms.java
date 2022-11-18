@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,9 @@ import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
 import com.example.clientereto1.models.User;
+import com.example.clientereto1.network.CreateUserRequest;
+import com.example.clientereto1.network.NetConfiguration;
+import com.example.clientereto1.network.NetworkUtilites;
 
 public class UserForms extends AppCompatActivity {
 
@@ -131,6 +135,74 @@ public class UserForms extends AppCompatActivity {
     }
 
     public void register_onCreate(){
-
+        findViewById(R.id.registerButtonRegister).setOnClickListener(v -> {
+            System.out.println("Entro");
+            if (registerFormIsValid()) {
+                System.out.println("Formulario  Válido");
+                String userDataJson = generateUserJson();
+                new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson));
+            }
+        });
     }
+
+    private boolean registerFormIsValid() {
+        boolean isValid = true;
+
+        EditText password = ((EditText)findViewById(R.id.passwordTextViewRegister));
+        EditText confirmPassword = ((EditText)findViewById(R.id.confirmPasswordTextViewRegister));
+
+        if (!editTextIsValid(findViewById(R.id.usernameTextViewRegister), 5, false)) isValid = false;
+        if (!editTextIsValid(findViewById(R.id.firstNameTextViewRegister), 1, false)) isValid = false;
+        if (!editTextIsValid(findViewById(R.id.emailTextViewRegister), 5, true)) isValid = false;
+        if (!editTextIsValid(findViewById(R.id.confirmPasswordTextViewRegister), 5, false)) isValid = false;
+        if (!editTextIsValid(findViewById(R.id.passwordTextViewRegister), 5, false)) isValid = false;
+        if (!editTextIsValid(findViewById(R.id.lastNamesTextViewRegister), 1, false)) isValid = false;
+
+        if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+            password.setError(getString(R.string.passwords_do_not_match));
+            confirmPassword.setError(getString(R.string.passwords_do_not_match));
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    public boolean editTextIsValid(EditText editText, int minimumLength, boolean isEmail) {
+
+        String text = editText.getText().toString().trim();
+        editText.setError(null);
+
+        if (text.length() == 0 && !isEmail) {
+            System.out.println("1");
+            editText.setError(getString(R.string.empty_form_field));
+            return false;
+        }
+
+         if (text.length() > 0 && text.length() < minimumLength && !isEmail) {
+             System.out.println("2");
+             editText.setError(getString(R.string.short_form_filed) + " " + minimumLength + " " + getString(R.string.character));
+             return false;
+         }
+
+         if (isEmail && !android.util.Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+             editText.setError(getString(R.string.email_required_form_field));
+             return false;
+         }
+
+        return true;
+    }
+
+    public String generateUserJson() {
+        return  "{" +
+                "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewRegister)).getText().toString() + "\"," +
+                "\"firstname\": \"" + ((EditText) findViewById(R.id.firstNameTextViewRegister)).getText().toString() + "\"," +
+                "\"lastnames\": \"" + ((EditText) findViewById(R.id.lastNamesTextViewRegister)).getText().toString() + "\"," +
+                "\"email\": \"" + ((EditText) findViewById(R.id.emailTextViewRegister)).getText().toString() + "\"," +
+                "\"password\": \"" + ((EditText) findViewById(R.id.passwordTextViewRegister)).getText().toString() + "\"" +
+                "}";
+    }
+
+
+
+
 }
