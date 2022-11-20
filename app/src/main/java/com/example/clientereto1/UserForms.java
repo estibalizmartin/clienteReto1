@@ -22,7 +22,9 @@ import com.example.clientereto1.fragments.SignInFragment;
 import com.example.clientereto1.models.User;
 import com.example.clientereto1.models.UserResponse;
 import com.example.clientereto1.network.CreateUserRequest;
-import com.example.clientereto1.network.LogInRequest;
+
+import com.example.clientereto1.network.LoginRequest;
+
 import com.example.clientereto1.network.NetConfiguration;
 import com.example.clientereto1.network.NetworkUtilites;
 
@@ -124,7 +126,9 @@ public class UserForms extends AppCompatActivity {
                 databaseHelper.deleteUser();
             }
 
+
             if (signInFormIsValid()) {
+
 
                 UserResponse userResponse = new NetworkUtilites(this).makeRequest(new LogInRequest(generateLogInJson()));
 
@@ -169,6 +173,7 @@ public class UserForms extends AppCompatActivity {
                     Toast.makeText(this, getString(R.string.user_created), Toast.LENGTH_LONG).show();
                     setFragmentLayout("sign_in");
                 }
+
 
             }
         });
@@ -230,6 +235,7 @@ public class UserForms extends AppCompatActivity {
     }
 
     private String generateRegisterJson() {
+
         return  "{" +
                 "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewRegister)).getText().toString() + "\"," +
                 "\"firstname\": \"" + ((EditText) findViewById(R.id.firstNameTextViewRegister)).getText().toString() + "\"," +
@@ -240,6 +246,7 @@ public class UserForms extends AppCompatActivity {
     }
 
     private String generateLogInJson() {
+
         return  "{" +
                 "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewSignIn)).getText().toString() + "\"," +
                 "\"password\": \"" + ((EditText) findViewById(R.id.passwordTextViewSignIn)).getText().toString() + "\"" +
