@@ -130,7 +130,7 @@ public class UserForms extends AppCompatActivity {
             if (signInFormIsValid()) {
 
 
-                UserResponse userResponse = new NetworkUtilites(this).makeRequest(new LogInRequest(generateLogInJson()));
+                UserResponse userResponse = new NetworkUtilites(this).makeRequest(new LoginRequest(generateLogInJson()));
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
