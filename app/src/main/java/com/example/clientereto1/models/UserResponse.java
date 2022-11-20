@@ -2,7 +2,7 @@ package com.example.clientereto1.models;
 
 public class UserResponse {
 
-    private boolean Access;
+    private boolean access;
     private String message;
     private String username;
     private int id;
@@ -10,19 +10,24 @@ public class UserResponse {
     public UserResponse() {
     }
 
+    public UserResponse(boolean access, String message) {
+        this.access = access;
+        this.message = message;
+    }
+
     public UserResponse(boolean hasAccess, String message, String username, int id) {
-        this.Access = hasAccess;
+        this.access = hasAccess;
         this.message = message;
         this.username = username;
         this.id = id;
     }
 
     public boolean isAccess() {
-        return Access;
+        return access;
     }
 
     public void setAccess(boolean hasAccess) {
-        this.Access = hasAccess;
+        this.access = hasAccess;
     }
 
     public String getMessage() {
@@ -52,7 +57,7 @@ public class UserResponse {
     @Override
     public String toString() {
         return "UserResponse{" +
-                "hasAccess=" + Access +
+                "hasAccess=" + access +
                 ", message='" + message + '\'' +
                 ", username='" + username + '\'' +
                 ", id=" + id +

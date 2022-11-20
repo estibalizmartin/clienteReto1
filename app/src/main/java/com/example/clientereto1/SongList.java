@@ -1,11 +1,14 @@
 package com.example.clientereto1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 public class SongList extends AppCompatActivity {
     ArrayList<Song> listado;
     NetworkUtilites networkUtilites;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,7 @@ public class SongList extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.layout_community);
         listado = new ArrayList<>();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         networkUtilites = new NetworkUtilites(SongList.this);
 
         makeSongRequest();
@@ -38,6 +43,9 @@ public class SongList extends AppCompatActivity {
 
         setContentView(R.layout.layout_community);
         ((ListView) findViewById( R.id.allSongsListView)).setAdapter (new MyTableAdapter(this, R.layout.myrow_layout, listado));
+
+        Toolbar hiToolbar = findViewById(R.id.hiToolbar);
+        hiToolbar.setTitle(hiToolbar.getTitle().toString() + sharedPreferences.getString("username", ""));
 
         //Para ir a favoritos
         findViewById(R.id.favoritesButton).setOnClickListener(view -> {
@@ -51,6 +59,8 @@ public class SongList extends AppCompatActivity {
         setContentView(R.layout.layout_favourites);
         ((ListView) findViewById( R.id.favouritesListView)).setAdapter (new MyTableAdapter (this, R.layout.myrow_layout, listado));
 
+        Toolbar hiToolbar = findViewById(R.id.hiToolbar);
+        hiToolbar.setTitle(hiToolbar.getTitle().toString() + sharedPreferences.getString("username", ""));
         //Para ir a community
         findViewById(R.id.allSongsButton).setOnClickListener(v -> {
             makeSongRequest();

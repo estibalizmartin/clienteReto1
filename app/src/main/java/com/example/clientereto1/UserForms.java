@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,8 +20,11 @@ import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
 import com.example.clientereto1.models.User;
+import com.example.clientereto1.models.UserResponse;
 import com.example.clientereto1.network.CreateUserRequest;
+
 import com.example.clientereto1.network.LoginRequest;
+
 import com.example.clientereto1.network.NetConfiguration;
 import com.example.clientereto1.network.NetworkUtilites;
 
@@ -72,6 +77,7 @@ public class UserForms extends AppCompatActivity {
                       register_onCreate();
                     }
                 }).commit();
+
                 fragmentTransaction.addToBackStack(null);
                 toolbarTitle.setText(getString(R.string.register_txt));
                 break;
@@ -93,55 +99,48 @@ public class UserForms extends AppCompatActivity {
     }
 
     public void sign_in_onCreate() {
-        TextView usernameSignIn = findViewById(R.id.usernameTextViewSignIn);
-        TextView passwordSignIn = findViewById(R.id.passwordTextViewSignIn);
+
         CheckBox checkRemember = findViewById(R.id.rememberCheckBox);
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
         if (!databaseHelper.isEmpty()) {
             User user = databaseHelper.getAllUsers();
-            usernameSignIn.setText(user.getUsername());
-            passwordSignIn.setText(user.getPassword());
+            ((EditText)findViewById(R.id.usernameTextViewSignIn)).setText(user.getUsername());
+            ((EditText)findViewById(R.id.passwordTextViewSignIn)).setText(user.getPassword());
         }
 
         findViewById(R.id.signInButtonSignIn).setOnClickListener(view -> {
             Intent intent = new Intent(this, SongList.class);
 
-            String username = usernameSignIn.getText().toString();
-            String password = passwordSignIn.getText().toString();
+            String username = ((EditText)findViewById(R.id.usernameTextViewSignIn)).getText().toString();
+            String password = ((EditText)findViewById(R.id.passwordTextViewSignIn)).getText().toString();
 
             if (checkRemember.isChecked()) {
                 if ((!databaseHelper.isEmpty() && databaseHelper.deleteUser() == 1) || databaseHelper.isEmpty()) {
                     if (databaseHelper.createUser(username, password)) {
-                        Toast.makeText(this, username + " created.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, username + " created.", Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
                 databaseHelper.deleteUser();
             }
 
-                if(username == "" || username == null){
-                    ((EditText) findViewById(R.id.usernameTextViewSignIn)).setError("Este campo no puede estar vacío");
-                }
-                if(username.length() < 5 || username.length() > 70){
-                    ((EditText) findViewById(R.id.usernameTextViewSignIn)).setError("Este campo tiene que contener más de 5 caracteres");
-                }
-                if(password == "" || password == null){
-                    ((EditText) findViewById(R.id.passwordTextViewSignIn)).setError("Este campo no puede estar vacío");
-                }
-                if(password.length() < 5 || password.length() > 70){
-                    ((EditText) findViewById(R.id.passwordTextViewSignIn)).setError("Este campo tiene que contener más de 5 caracteres");
-                }else{
+
+            if (signInFormIsValid()) {
 
 
-                    System.out.println(new NetworkUtilites(this).makeRequest(new LoginRequest(generateLoginJson())).getId());
-                    //startActivity(intent);
+                UserResponse userResponse = new NetworkUtilites(this).makeRequest(new LogInRequest(generateLogInJson()));
 
-                    finish();
-                //Toast.makeText(this, "Hay algún error en el usuario o la contraseña", Toast.LENGTH_SHORT).show();
-        }
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("user_id", userResponse.getId());
+                editor.putString("username", userResponse.getUsername());
+                editor.commit();
 
+                startActivity(intent);
+                finish();
+            }
         });
 
         findViewById(R.id.resetTextView).setOnClickListener(v -> {
@@ -162,13 +161,32 @@ public class UserForms extends AppCompatActivity {
 
     public void register_onCreate(){
         findViewById(R.id.registerButtonRegister).setOnClickListener(v -> {
-            System.out.println("Entro");
+
             if (registerFormIsValid()) {
-                System.out.println("Formulario  Válido");
+
                 String userDataJson = generateRegisterJson();
-                new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson));
+                UserResponse response = new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson));
+
+                if (response == null)
+                    Toast.makeText(this, getString(R.string.request_error), Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(this, getString(R.string.user_created), Toast.LENGTH_LONG).show();
+                    setFragmentLayout("sign_in");
+                }
+
+
             }
         });
+    }
+
+    private boolean signInFormIsValid() {
+        boolean isValid = true;
+
+        if (!editTextIsValid(findViewById(R.id.usernameTextViewSignIn), 5, false)) isValid = false;
+        if (!editTextIsValid(findViewById(R.id.passwordTextViewSignIn), 5, false)) isValid = false;
+
+        return isValid;
+
     }
 
     private boolean registerFormIsValid() {
@@ -199,13 +217,11 @@ public class UserForms extends AppCompatActivity {
         editText.setError(null);
 
         if (text.length() == 0 && !isEmail) {
-            System.out.println("1");
             editText.setError(getString(R.string.empty_form_field));
             return false;
         }
 
          if (text.length() > 0 && text.length() < minimumLength && !isEmail) {
-             System.out.println("2");
              editText.setError(getString(R.string.short_form_filed) + " " + minimumLength + " " + getString(R.string.character));
              return false;
          }
@@ -218,7 +234,8 @@ public class UserForms extends AppCompatActivity {
         return true;
     }
 
-    public String generateRegisterJson() {
+    private String generateRegisterJson() {
+
         return  "{" +
                 "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewRegister)).getText().toString() + "\"," +
                 "\"firstname\": \"" + ((EditText) findViewById(R.id.firstNameTextViewRegister)).getText().toString() + "\"," +
@@ -228,7 +245,8 @@ public class UserForms extends AppCompatActivity {
                 "}";
     }
 
-    public String generateLoginJson() {
+    private String generateLogInJson() {
+
         return  "{" +
                 "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewSignIn)).getText().toString() + "\"," +
                 "\"password\": \"" + ((EditText) findViewById(R.id.passwordTextViewSignIn)).getText().toString() + "\"" +

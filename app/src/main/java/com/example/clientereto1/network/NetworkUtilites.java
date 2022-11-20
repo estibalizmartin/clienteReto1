@@ -1,6 +1,7 @@
 package com.example.clientereto1.network;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.ListView;
@@ -16,9 +17,11 @@ import java.util.ArrayList;
 public class NetworkUtilites {
 
     Context context;
+    Resources res;
 
     public NetworkUtilites(Context context) {
         this.context = context;
+        res = context.getResources();
     }
 
     public ArrayList<Song> makeRequest(SongsRequest songsRequest) {
@@ -57,7 +60,7 @@ public class NetworkUtilites {
             return new ArrayList<>();
     }
 
-    public int makeRequest(CreateUserRequest createUserRequest) {
+    public UserResponse makeRequest(CreateUserRequest createUserRequest) {
         if (isConnected()) {
 
             Thread thread = new Thread(createUserRequest);
@@ -68,15 +71,33 @@ public class NetworkUtilites {
                 // Nothing to do here...
             }
             // Processing the answer
-            int response = createUserRequest.getResponse();
-
-            System.out.println("Respuesta register: " + response);
+            UserResponse response = createUserRequest.getResponse();
 
             return response;
 
 
         } else
-            return 0;
+            return new UserResponse(false, res.getString(R.string.error_communication));
+    }
+
+    public UserResponse makeRequest(LogInRequest logInRequest) {
+        if (isConnected()) {
+
+            Thread thread = new Thread(logInRequest);
+            try {
+                thread.start();
+                thread.join(); // Awaiting response from the server...
+            } catch (InterruptedException e) {
+                // Nothing to do here...
+            }
+            // Processing the answer
+            UserResponse response = logInRequest.getResponse();
+
+            return response;
+
+
+        } else
+            return new UserResponse(false, res.getString(R.string.error_communication));
     }
     public UserResponse makeRequest(LoginRequest loginRequest) {
         if (isConnected()) {
