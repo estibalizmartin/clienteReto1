@@ -1,5 +1,6 @@
 package com.example.clientereto1.network;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.example.clientereto1.R;
@@ -8,14 +9,11 @@ import com.example.clientereto1.models.UserResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LogInRequest extends NetConfiguration implements Runnable{
     private final String theUrl = theBaseUrl + "/loginNoToken";
@@ -23,9 +21,10 @@ public class LogInRequest extends NetConfiguration implements Runnable{
     public static Resources res;
     String userDataJson;
 
-    public LogInRequest(String userDataJson) {
+    public LogInRequest(String userDataJson, Context context) {
         this.userDataJson = userDataJson;
         response = new UserResponse();
+        res = context.getResources();
     }
 
     @Override
