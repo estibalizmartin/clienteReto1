@@ -67,7 +67,7 @@ public class LogInRequest extends NetConfiguration implements Runnable{
 
 
                 this.response.setAccess(true);
-                this.response.setMessage("Welcome "  + username);
+                this.response.setMessage(res.getString(R.string.welcome) + " " + username);
                 this.response.setUsername(username);
                 this.response.setId(Integer.parseInt(access));
             }
