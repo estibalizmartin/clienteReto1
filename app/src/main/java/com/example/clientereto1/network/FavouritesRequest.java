@@ -61,7 +61,6 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
                 }
             }
         } catch (Exception e) {
-            System.out.println("entro porque he fallado");
             e.printStackTrace();
         }
 
