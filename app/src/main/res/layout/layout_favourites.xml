@@ -84,17 +84,19 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/hamburguesaFavourites"
-        android:layout_width="49dp"
-        android:layout_height="54dp"
-        android:background="?attr/colorPrimaryVariant"
+        android:id="@+id/favouritesBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
         android:contentDescription="@android:string/untitled"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/hiToolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/hiToolbar"
+        app:layout_constraintEnd_toEndOf="@+id/hiToolbar"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/favouritesTitle"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/hamburguesa2" />
+        app:layout_constraintVertical_bias="0.642"
+        app:srcCompat="@android:drawable/btn_dialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
