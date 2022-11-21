@@ -61,6 +61,10 @@ public class SongList extends AppCompatActivity {
         Toolbar hiToolbar = findViewById(R.id.hiToolbar);
         hiToolbar.setTitle(hiToolbar.getTitle().toString() + sharedPreferences.getString("username", ""));
 
+        findViewById(R.id.communityBack).setOnClickListener(v -> {
+            finish();
+        });
+
         findViewById(R.id.favoritesButton).setOnClickListener(view -> {
             favourites_onCreate();
         });
@@ -101,6 +105,9 @@ public class SongList extends AppCompatActivity {
         Toolbar hiToolbar = findViewById(R.id.hiToolbar);
         hiToolbar.setTitle(hiToolbar.getTitle().toString() + sharedPreferences.getString("username", ""));
 
+        findViewById(R.id.favouritesBack).setOnClickListener(v -> {
+            finish();
+        });
         findViewById(R.id.allSongsButton).setOnClickListener(v -> {
             community_onCreate();
         });

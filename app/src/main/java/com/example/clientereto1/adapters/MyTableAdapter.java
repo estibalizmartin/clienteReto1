@@ -87,7 +87,9 @@ public class MyTableAdapter extends ArrayAdapter<Song> {
         }
 
         view.findViewById(R.id.btn_star_big).setOnClickListener(v -> {
-            System.out.println("Entrando al onlick");
+            System.out.println("Entrando al onlick"+view);
+            CreateFavouriteRequest createFavouriteRequest= new CreateFavouriteRequest(generateFavouriteDataJson(view));
+            System.out.println(createFavouriteRequest.getResponse());
             networkUtilites.makeRequest(new CreateFavouriteRequest(generateFavouriteDataJson(view)));
             System.out.println("Saliendo del onlick");
         });
