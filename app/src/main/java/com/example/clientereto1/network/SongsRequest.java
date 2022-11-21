@@ -26,7 +26,7 @@ public class SongsRequest extends NetConfiguration implements Runnable{
 
             int responseCode = httpURLConnection.getResponseCode();
             if (responseCode == 513){
-                this.response = null;
+                this.response = new ArrayList<>();
             }else if(responseCode == HttpURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );
@@ -55,6 +55,8 @@ public class SongsRequest extends NetConfiguration implements Runnable{
                     song.setUrl( object.getString("url"));
                     this.response.add( song );
                 }
+            } else {
+                this.response = new ArrayList<>();
             }
         } catch (Exception e) {
             e.printStackTrace();

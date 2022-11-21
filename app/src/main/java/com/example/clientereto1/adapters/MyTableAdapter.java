@@ -13,9 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.example.clientereto1.R;
+import com.example.clientereto1.models.RequestResponse;
 import com.example.clientereto1.models.Song;
 import com.example.clientereto1.network.CreateFavouriteRequest;
 import com.example.clientereto1.network.DeleteFavouriteRequest;
@@ -102,14 +105,16 @@ public class MyTableAdapter extends ArrayAdapter<Song> {
 
                 imageView.setImageResource(android.R.drawable.btn_star_big_off);
                 imageView.setTag(android.R.drawable.btn_star_big_off);
-                System.out.println(generateFavouriteDataJson(view));
-                new NetworkUtilites(context).makeRequest(new DeleteFavouriteRequest(generateFavouriteDataJson(view)));
+
+                RequestResponse response = new NetworkUtilites(context).makeRequest(new DeleteFavouriteRequest(generateFavouriteDataJson(view), context));
+                Toast.makeText(context, response.getMessage(), Toast.LENGTH_SHORT).show();
 
             } else {
 
                 imageView.setImageResource(android.R.drawable.btn_star_big_on);
                 imageView.setTag(android.R.drawable.btn_star_big_on);
-                new NetworkUtilites(context).makeRequest(new CreateFavouriteRequest(generateFavouriteDataJson(view)));
+                RequestResponse response = new NetworkUtilites(context).makeRequest(new CreateFavouriteRequest(generateFavouriteDataJson(view), context));
+                Toast.makeText(context, response.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });

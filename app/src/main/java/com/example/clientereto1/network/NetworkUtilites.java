@@ -132,7 +132,6 @@ public class NetworkUtilites {
                 // Nothing to do here...
             }
             // Processing the answer
-            System.out.println("respuesta desde el utilities: "+createFavouriteRequest.getResponse());
             RequestResponse response = createFavouriteRequest.getResponse();
             return response;
         }else{

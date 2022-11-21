@@ -96,7 +96,7 @@ public class SongList extends AppCompatActivity {
     public void favourites_onCreate(){
         favList = networkUtilites.makeRequest(new FavouritesRequest(this));
 
-        System.out.println("FAVS: " + favList);
+
 
         setContentView(R.layout.layout_favourites);
         ((ListView) findViewById(R.id.favouritesListView)).setAdapter(new MyTableAdapter(this, R.layout.myrow_layout, favList));
@@ -132,7 +132,7 @@ public class SongList extends AppCompatActivity {
 
     public void searchSong(String queryText, ListView songlistView) {
         for (int i = 0; i < songlistView.getChildCount(); i++) {
-            System.out.println(i);
+
             LinearLayout listViewLayout = (LinearLayout) songlistView.getChildAt(i);
             TextView songTitleTextView = (TextView) ((TableRow) listViewLayout.getChildAt(0)).getChildAt(0);
 

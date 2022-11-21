@@ -1,5 +1,9 @@
 package com.example.clientereto1.network;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.example.clientereto1.R;
 import com.example.clientereto1.models.RequestResponse;
 
 import java.io.BufferedReader;
@@ -13,15 +17,17 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
     private final String theUrl = theBaseUrl + "/favoritesNoToken";
     private RequestResponse response;
     private String userDataJson;
+    Resources res;
 
-    public DeleteFavouriteRequest(String userDataJson) {
+    public DeleteFavouriteRequest(String userDataJson, Context context) {
         this.userDataJson = userDataJson;
+        res = context.getResources();
     }
 
     @Override
     public void run() {
         try {
-            System.out.println(theUrl);
+
             URL url = new URL(theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod( "DELETE" );
@@ -34,19 +40,17 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(httpURLConnection.getRequestMethod());
-            System.out.println(responseCode);
+
             response = new RequestResponse();
 
             if (responseCode == 512){
-                this.response.setMessage("");
+                this.response.setMessage(res.getString(R.string.song_doesnt_exists));
 
             } else if (responseCode == HttpURLConnection.HTTP_ACCEPTED) {
 
-
-                this.response.setMessage("");
+                this.response.setMessage(res.getString(R.string.song_deleted_favourites));
             } else {
-                this.response.setMessage("");
+                this.response.setMessage(res.getString(R.string.request_error));
             }
 
         } catch (Exception e) {

@@ -33,8 +33,14 @@
     <string name="welcome">Welcome</string>
     <string name="play">Play</string>
     <string name="password_changed">Password changed</string>
-    <string name="song_exists">Song already exists</string>
+    <string name="song_exists">This song already exists</string>
     <string name="song_doesnt_exists">Song doesnt exist</string>
+    <string name="song_already_favourite">This song is already a favourite of yours</string>
+    <string name="song_favourites">Song added to your favourites</string>
+    <string name="song_deleted_favourites">Song deleted from your favourites</string>
+    <string name="input_wrong">The given input is not valid</string>
+    <string name="user_not_exist">This user doesnt exist</string>
+    <string name="password_incorrect">The password is incorrect</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="es_lang_button" translatable="false">Español</string>

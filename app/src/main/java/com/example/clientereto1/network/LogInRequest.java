@@ -22,7 +22,7 @@ public class LogInRequest extends NetConfiguration implements Runnable{
     String userDataJson;
 
     public LogInRequest(String userDataJson, Context context) {
-        System.out.println(userDataJson);
+
         this.userDataJson = userDataJson;
         response = new UserResponse();
         res = context.getResources();
@@ -44,17 +44,16 @@ public class LogInRequest extends NetConfiguration implements Runnable{
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(responseCode);
 
             if (responseCode == 432){
                 response.setAccess(false);
-                response.setMessage("El usuario no existe");
+                response.setMessage(res.getString(R.string.user_not_exist));
             }else if(responseCode == 400){
                 response.setAccess(false);
-                response.setMessage("Los datos son erróneos");
+                response.setMessage(res.getString(R.string.input_wrong));
             }else if(responseCode == 433){
                 response.setAccess(false);
-                response.setMessage("La contraseña es errónea");
+                response.setMessage(res.getString(R.string.password_incorrect));
             }else if(responseCode == 202){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );
@@ -68,12 +67,14 @@ public class LogInRequest extends NetConfiguration implements Runnable{
                 String id = response.substring(2, response.indexOf(",") - 1).replace("\"\"", "");
                 String username = response.substring(response.indexOf(",") + 2, response.length() - 2).replace("\"\"", "");
 
-                System.out.println(response);
 
                 this.response.setAccess(true);
                 this.response.setMessage(res.getString(R.string.welcome)+ " " + username);
                 this.response.setUsername(username);
                 this.response.setId(Integer.parseInt(id));
+            } else {
+                response.setAccess(false);
+                response.setMessage(res.getString(R.string.request_error));
             }
 
         } catch (MalformedURLException | ProtocolException e) {

@@ -47,7 +47,7 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(responseCode);
+
 
             this.response = new UserResponse();
 
@@ -56,12 +56,7 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
                 this.response.setAccess(false);
                 this.response.setMessage(res.getString(R.string.user_already_exists));
 
-            } else if (responseCode == 400) {
-
-                this.response.setAccess(false);
-                this.response.setMessage(res.getString(R.string.request_error));
-
-            }   if(responseCode == HttpURLConnection.HTTP_CREATED){
+            }  else  if(responseCode == HttpURLConnection.HTTP_CREATED){
 
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );
@@ -75,6 +70,9 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
                 this.response.setAccess(true);
                 this.response.setMessage(res.getString(R.string.user_created));
 
+            } else {
+                this.response.setAccess(false);
+                this.response.setMessage(res.getString(R.string.request_error));
             }
         } catch (Exception e) {
             e.printStackTrace();

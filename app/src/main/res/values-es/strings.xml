@@ -36,4 +36,10 @@
     <string name="password_changed">Contraseña cambiada</string>
     <string name="song_exists">La canción ya existe</string>
     <string name="song_doesnt_exists">La canción no existe</string>
+    <string name="song_already_favourite">Esta canción ya es una de tus favoritas</string>
+    <string name="song_favourites">Canción añadida a tus favoritos</string>
+    <string name="song_deleted_favourites">Canción borrada de tus favoritos</string>
+    <string name="input_wrong">Los datos enviados no son válidos</string>
+    <string name="user_not_exist">El usuario no existe</string>
+    <string name="password_incorrect">La contraseña es incorrecta</string>
 </resources>

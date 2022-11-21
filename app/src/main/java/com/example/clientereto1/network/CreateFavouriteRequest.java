@@ -3,6 +3,7 @@ package com.example.clientereto1.network;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.example.clientereto1.R;
 import com.example.clientereto1.models.RequestResponse;
 
 import java.io.BufferedReader;
@@ -16,15 +17,17 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
     private final String theUrl = theBaseUrl + "/favoritesNoToken";
     private RequestResponse response;
     private String userDataJson;
+    Resources res;
 
-    public CreateFavouriteRequest(String userDataJson) {
+    public CreateFavouriteRequest(String userDataJson, Context context) {
+        res = context.getResources();
         this.userDataJson = userDataJson;
     }
 
     @Override
     public void run() {
         try {
-            System.out.println(theUrl);
+
             URL url = new URL(theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod( "POST" );
@@ -37,18 +40,18 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(responseCode);
+
             response = new RequestResponse();
 
             if (responseCode == 512){
-                this.response.setMessage("");
+                this.response.setMessage(res.getString(R.string.song_already_favourite));
 
-            } else if (responseCode == HttpURLConnection.HTTP_OK) {
+            } else if (responseCode == HttpURLConnection.HTTP_CREATED) {
 
 
-                this.response.setMessage("");
+                this.response.setMessage(res.getString(R.string.song_favourites));
             } else {
-                this.response.setMessage("");
+                this.response.setMessage(res.getString(R.string.request_error));
             }
 
         } catch (Exception e) {

@@ -141,11 +141,11 @@ public class UserForms extends AppCompatActivity {
                     editor.putString("username", loginResponse.getUsername());
                     editor.commit();
 
-                    Toast.makeText(this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     finish();
                 } else
-                    Toast.makeText(this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

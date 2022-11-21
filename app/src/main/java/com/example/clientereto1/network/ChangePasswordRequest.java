@@ -40,7 +40,7 @@ public class ChangePasswordRequest extends NetConfiguration implements Runnable 
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(responseCode);
+
             response = new RequestResponse();
 
             if (responseCode == 432 || responseCode == 433) {

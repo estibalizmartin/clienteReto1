@@ -37,12 +37,12 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
             URL url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod( "GET" );
-            // Sending...
+
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(responseCode);
-            if (responseCode == 513){
-                // No se han podido cargar las canciones
-                this.response = null;
+
+            if (responseCode == 434){
+
+                this.response = new ArrayList<>();
             }else if(responseCode == HttpURLConnection.HTTP_OK){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );
@@ -53,7 +53,6 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
                 }
                 bufferedReader.close();
 
-                // Processing the JSON...
                 String theUnprocessedJSON = response.toString();
 
                 JSONArray jsonArray = new JSONArray (theUnprocessedJSON);
@@ -64,7 +63,6 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
                 for(int i=0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject( i );
 
-                    System.out.println(object.getInt("id"));
 
                     song = new Song();
                     song.setId(object.getInt("id"));
@@ -73,6 +71,8 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
                     song.setUrl( object.getString("url"));
                     this.response.add( song );
                 }
+            } else {
+                this.response = new ArrayList<>();
             }
         } catch (Exception e) {
             e.printStackTrace();
