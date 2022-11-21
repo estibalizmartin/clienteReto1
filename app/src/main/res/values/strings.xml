@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">lokos por la música</string>
+    <string name="app_name" translatable="false">lokos por la música</string>
     <string name="sign_in_txt">Sign In</string>
     <string name="register_txt">Register</string>
     <string name="reset_password_txt">Reset password</string>
@@ -34,4 +34,6 @@
     <string name="play">Play</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="es_lang_button" translatable="false">Español</string>
+    <string name="en_lang_button" translatable="false">English</string>
 </resources>
