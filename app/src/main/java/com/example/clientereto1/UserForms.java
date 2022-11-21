@@ -19,8 +19,10 @@ import com.example.clientereto1.database.DatabaseHelper;
 import com.example.clientereto1.fragments.ChangePasswordFragment;
 import com.example.clientereto1.fragments.RegisterFragment;
 import com.example.clientereto1.fragments.SignInFragment;
+import com.example.clientereto1.models.RequestResponse;
 import com.example.clientereto1.models.User;
 import com.example.clientereto1.models.UserResponse;
+import com.example.clientereto1.network.ChangePasswordRequest;
 import com.example.clientereto1.network.CreateUserRequest;
 
 import com.example.clientereto1.network.LogInRequest;
@@ -124,8 +126,6 @@ public class UserForms extends AppCompatActivity {
                         //Toast.makeText(this, username + " created.", Toast.LENGTH_SHORT).show();
                     }
                 }
-            } else {
-                databaseHelper.deleteUser();
             }
 
 
@@ -162,6 +162,17 @@ public class UserForms extends AppCompatActivity {
     private void changePassword_onCreate() {
         findViewById(R.id.userFormBack).setOnClickListener(v -> {
             setFragmentLayout("sign_in");
+        });
+
+        (findViewById(R.id.resetButton)).setOnClickListener(v -> {
+            if (changePasswordFormIsValid()){
+                RequestResponse response = new NetworkUtilites(this).makeRequest(new ChangePasswordRequest(generateChangePasswordJson(), this));
+                Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+
+                if (response.isAccess()) {
+                    setFragmentLayout("sign_in");
+                }
+            }
         });
     }
 
@@ -218,6 +229,26 @@ public class UserForms extends AppCompatActivity {
         return isValid;
     }
 
+    private boolean changePasswordFormIsValid() {
+        boolean isValid = true;
+
+        EditText password = ((EditText)findViewById(R.id.newPasswordTextViewReset));
+        EditText confirmPassword = ((EditText)findViewById(R.id.confirmNewPasswordTextViewReset));
+
+        if (!editTextIsValid(findViewById(R.id.usernameEditTextChangePass), 5, false)) isValid = false;
+        if (!editTextIsValid(findViewById(R.id.oldPasswordTextViewReset), 5, false)) isValid = false;
+        if (!editTextIsValid(password, 5, false)) isValid = false;
+        if (!editTextIsValid(confirmPassword, 5, false)) isValid = false;
+
+        if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+            password.setError(getString(R.string.passwords_do_not_match));
+            confirmPassword.setError(getString(R.string.passwords_do_not_match));
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     public boolean editTextIsValid(EditText editText, int minimumLength, boolean isEmail) {
 
         String text = editText.getText().toString().trim();
@@ -257,6 +288,14 @@ public class UserForms extends AppCompatActivity {
         return  "{" +
                 "\"username\": \"" + ((EditText) findViewById(R.id.usernameTextViewSignIn)).getText().toString() + "\"," +
                 "\"password\": \"" + ((EditText) findViewById(R.id.passwordTextViewSignIn)).getText().toString() + "\"" +
+                "}";
+    }
+
+    private String generateChangePasswordJson() {
+        return  "{" +
+                "\"username\": \"" + ((EditText) findViewById(R.id.usernameEditTextChangePass)).getText().toString() + "\"," +
+                "\"oldPassword\": \"" + ((EditText) findViewById(R.id.oldPasswordTextViewReset)).getText().toString() + "\"," +
+                "\"newPassword\": \"" + ((EditText) findViewById(R.id.newPasswordTextViewReset)).getText().toString() + "\"" +
                 "}";
     }
 

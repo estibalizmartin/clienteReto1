@@ -1,5 +1,7 @@
 package com.example.clientereto1.network;
 
+import com.example.clientereto1.models.RequestResponse;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -9,7 +11,7 @@ import java.net.URL;
 public class CreateFavouriteRequest extends NetConfiguration implements Runnable {
 
     private final String theUrl = theBaseUrl + "/favorites";
-    private int response;
+    private RequestResponse response;
     private String userDataJson;
 
     public CreateFavouriteRequest(String userDataJson) {
@@ -32,10 +34,11 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(responseCode);
+            response = new RequestResponse();
 
-            if (responseCode == 432){
-                this.response = 0;
+            if (responseCode == 512){
+                this.response.setMessage("");
+
             } else if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream()));
@@ -46,17 +49,18 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
                 }
                 bufferedReader.close();
 
-                this.response = Integer.parseInt(response.toString());
+                this.response.setMessage("");
+            } else {
+                this.response.setMessage("");
             }
 
         } catch (Exception e) {
-            System.out.println("entro porque he fallado");
             e.printStackTrace();
         }
 
     }
 
-    public int getResponse() {
+    public RequestResponse getResponse() {
         return response;
     }
 }

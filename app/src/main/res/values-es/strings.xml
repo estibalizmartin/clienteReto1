@@ -33,4 +33,7 @@
     <string name="request_error">Algo salió mal</string>
     <string name="user_created">Usuario creado</string>
     <string name="welcome">Bienvenid@</string>
+    <string name="password_changed">Contraseña cambiada</string>
+    <string name="song_exists">La canción ya existe</string>
+    <string name="song_doesnt_exists">La canción no existe</string>
 </resources>
