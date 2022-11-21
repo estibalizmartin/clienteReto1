@@ -87,10 +87,10 @@ public class SongList extends AppCompatActivity {
     }
 
     public void favourites_onCreate(){
-        favList = networkUtilites.makeRequest(new FavouritesRequest());
+        favList = networkUtilites.makeRequest(new FavouritesRequest(this));
 
         setContentView(R.layout.layout_favourites);
-        ((ListView) findViewById(R.id.favouritesListView)).setAdapter(new MyTableAdapter(this, R.layout.myrow_layout, songList, favList));
+        ((ListView) findViewById(R.id.favouritesListView)).setAdapter(new MyTableAdapter(this, R.layout.myrow_layout, favList));
 
         Toolbar hiToolbar = findViewById(R.id.hiToolbar);
         hiToolbar.setTitle(hiToolbar.getTitle().toString() + sharedPreferences.getString("username", ""));
