@@ -2,20 +2,16 @@ package com.example.clientereto1.network;
 
 import android.content.res.Resources;
 
-import com.example.clientereto1.R;
 import com.example.clientereto1.models.UserResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LogInRequest extends NetConfiguration implements Runnable{
     private final String theUrl = theBaseUrl + "/loginNoToken";
@@ -30,8 +26,11 @@ public class LogInRequest extends NetConfiguration implements Runnable{
 
     @Override
     public void run() {
+
+// The URL
+        URL url = null;
         try {
-            URL url = new URL( theUrl);
+            url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
 
@@ -45,13 +44,16 @@ public class LogInRequest extends NetConfiguration implements Runnable{
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-
+            System.out.println("response code:: " + responseCode);
             if (responseCode == 432){
-
+                response.setAccess(false);
+                response.setMessage("El usuario no existe");
             }else if(responseCode == 400){
-
+                response.setAccess(false);
+                response.setMessage("Los datos son erróneos");
             }else if(responseCode == 433){
-
+                response.setAccess(false);
+                response.setMessage("La contraseña es errónea");
             }else if(responseCode == 202){
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );
@@ -75,7 +77,9 @@ public class LogInRequest extends NetConfiguration implements Runnable{
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } /*catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
     }
     public UserResponse getResponse(){return response;}
 }

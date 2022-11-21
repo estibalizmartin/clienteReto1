@@ -99,10 +99,10 @@ public class NetworkUtilites {
         } else
             return new UserResponse(false, res.getString(R.string.error_communication));
     }
-    public UserResponse makeRequest(LoginRequest loginRequest) {
+    /*public UserResponse makeRequest(LogInRequest logInRequest) {
         if (isConnected()) {
 
-            Thread thread = new Thread(loginRequest);
+            Thread thread = new Thread(logInRequest);
             try {
                 thread.start();
                 thread.join(); // Awaiting response from the server...
@@ -110,7 +110,7 @@ public class NetworkUtilites {
                 // Nothing to do here...
             }
             // Processing the answer
-            UserResponse response = loginRequest.getResponse();
+            UserResponse response = lognRequest.getResponse();
 
             System.out.println("Respuesta login: " + response);
 
@@ -119,7 +119,7 @@ public class NetworkUtilites {
 
         } else
             return null;
-    }
+    }*/
 
 
     public boolean isConnected() {

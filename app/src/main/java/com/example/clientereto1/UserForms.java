@@ -23,7 +23,7 @@ import com.example.clientereto1.models.User;
 import com.example.clientereto1.models.UserResponse;
 import com.example.clientereto1.network.CreateUserRequest;
 
-import com.example.clientereto1.network.LoginRequest;
+import com.example.clientereto1.network.LogInRequest;
 
 import com.example.clientereto1.network.NetConfiguration;
 import com.example.clientereto1.network.NetworkUtilites;
@@ -137,9 +137,15 @@ public class UserForms extends AppCompatActivity {
                 editor.putInt("user_id", userResponse.getId());
                 editor.putString("username", userResponse.getUsername());
                 editor.commit();
+                System.out.println("Respuesta login: "+userResponse.getMessage()+userResponse.isAccess());
+                if(userResponse.isAccess()==true){
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(this, userResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
-                startActivity(intent);
-                finish();
+
             }
         });
 
