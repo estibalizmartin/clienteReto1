@@ -1,5 +1,9 @@
 package com.example.clientereto1.network;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.example.clientereto1.models.Song;
 import com.example.clientereto1.network.NetConfiguration;
 
@@ -14,20 +18,28 @@ import java.util.ArrayList;
 
 public class FavouritesRequest extends NetConfiguration implements Runnable{
 
-    //EL ID LE LLEGA DESDE ANDROID
-    int idUser = 1;
-    private final String theUrl = theBaseUrl + "/favorites/"+idUser+"/user";
+    SharedPreferences sharedPreferences;
+    int idUser;
+    private String theUrl;
     private ArrayList<Song> response;
+
+    public FavouritesRequest(Context context){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        idUser = sharedPreferences.getInt("user_id", -1);
+        theUrl = theBaseUrl + "/favoritesnotoken/"+idUser+"/user";
+
+    }
+
     @Override
     public void run() {
         try {
-            // The URL
-            URL url = null;
-            url = new URL( theUrl);
+
+            URL url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod( "GET" );
             // Sending...
             int responseCode = httpURLConnection.getResponseCode();
+            System.out.println(responseCode);
             if (responseCode == 513){
                 // No se han podido cargar las canciones
                 this.response = null;
@@ -51,6 +63,8 @@ public class FavouritesRequest extends NetConfiguration implements Runnable{
                 Song song;
                 for(int i=0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject( i );
+
+                    System.out.println(object.getInt("id"));
 
                     song = new Song();
                     song.setId(object.getInt("id"));

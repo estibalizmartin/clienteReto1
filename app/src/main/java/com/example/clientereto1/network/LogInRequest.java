@@ -66,6 +66,7 @@ public class LogInRequest extends NetConfiguration implements Runnable{
                 String id = response.substring(2, response.indexOf(",") - 1).replace("\"\"", "");
                 String username = response.substring(response.indexOf(",") + 2, response.length() - 2).replace("\"\"", "");
 
+                System.out.println(response);
 
                 this.response.setAccess(true);
                 this.response.setMessage(res.getString(R.string.welcome)+ " " + username);

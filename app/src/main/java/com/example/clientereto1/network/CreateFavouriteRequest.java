@@ -10,10 +10,10 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
 
     private final String theUrl = theBaseUrl + "/favorites";
     private int response;
-    private String userDataJson;
+    private String favouriteDataJson;
 
-    public CreateFavouriteRequest(String userDataJson) {
-        this.userDataJson = userDataJson;
+    public CreateFavouriteRequest(String favouriteDataJson) {
+        this.favouriteDataJson = favouriteDataJson;
     }
 
     @Override
@@ -27,12 +27,12 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
 
             httpURLConnection.setDoOutput(true);
             try(OutputStream os = httpURLConnection.getOutputStream()) {
-                byte[] input = userDataJson.getBytes("utf-8");
+                byte[] input = favouriteDataJson.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println(responseCode);
+            System.out.println("Codigo de respuesta: "+responseCode);
 
             if (responseCode == 432){
                 this.response = 0;

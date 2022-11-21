@@ -95,7 +95,7 @@ public class UserForms extends AppCompatActivity {
 
     public void showErrorInForm() {
         toolbarTitle.setText(getString(R.string.error));
-        new Toast(this).makeText(this, "Ocurríó un error inesperado", Toast.LENGTH_LONG).show();
+        new Toast(this).makeText(this, (R.string.request_error), Toast.LENGTH_LONG).show();
     }
 
     public void sign_in_onCreate() {

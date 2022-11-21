@@ -100,6 +100,24 @@ public class NetworkUtilites {
             return new UserResponse(false, res.getString(R.string.error_communication));
     }
 
+    public int makeRequest(CreateFavouriteRequest createFavouriteRequest){
+        if (isConnected()) {
+            Thread thread = new Thread(createFavouriteRequest);
+            try{
+                thread.start();
+                thread.join(); // Awaiting response from the server...
+            }catch(InterruptedException e){
+                // Nothing to do here...
+            }
+            // Processing the answer
+            System.out.println("respuesta desde el utilities: "+createFavouriteRequest.getResponse());
+            int response = createFavouriteRequest.getResponse();
+            return response;
+        }else{
+            return -1;
+        }
+    }
+
 
     public boolean isConnected() {
         boolean ret = false;

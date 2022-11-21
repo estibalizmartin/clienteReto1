@@ -12,8 +12,8 @@ import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import  android.widget.SearchView;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +53,7 @@ public class SongList extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")
     public void community_onCreate() {
         songList = networkUtilites.makeRequest(new SongsRequest());
+        favList = networkUtilites.makeRequest(new FavouritesRequest(this));
 
         setContentView(R.layout.layout_community);
         ((ListView) findViewById(R.id.allSongsListView)).setAdapter(new MyTableAdapter(this, R.layout.myrow_layout, songList, favList));
@@ -92,10 +93,10 @@ public class SongList extends AppCompatActivity {
     }
 
     public void favourites_onCreate(){
-        favList = networkUtilites.makeRequest(new FavouritesRequest());
+        favList = networkUtilites.makeRequest(new FavouritesRequest(this));
 
         setContentView(R.layout.layout_favourites);
-        ((ListView) findViewById(R.id.favouritesListView)).setAdapter(new MyTableAdapter(this, R.layout.myrow_layout, songList, favList));
+        ((ListView) findViewById(R.id.favouritesListView)).setAdapter(new MyTableAdapter(this, R.layout.myrow_layout, favList));
 
         Toolbar hiToolbar = findViewById(R.id.hiToolbar);
         hiToolbar.setTitle(hiToolbar.getTitle().toString() + sharedPreferences.getString("username", ""));
