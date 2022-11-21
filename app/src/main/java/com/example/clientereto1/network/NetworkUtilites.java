@@ -140,6 +140,23 @@ public class NetworkUtilites {
         }
     }
 
+    public RequestResponse makeRequest(DeleteFavouriteRequest deleteFavouriteRequest){
+        if (isConnected()) {
+            Thread thread = new Thread(deleteFavouriteRequest);
+            try{
+                thread.start();
+                thread.join(); // Awaiting response from the server...
+            }catch(InterruptedException e){
+                // Nothing to do here...
+            }
+
+            RequestResponse response = deleteFavouriteRequest.getResponse();
+            return response;
+        }else{
+            return null;
+        }
+    }
+
 
     public boolean isConnected() {
         boolean ret = false;

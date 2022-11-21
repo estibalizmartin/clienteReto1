@@ -10,7 +10,7 @@ import java.net.URL;
 
 public class DeleteFavouriteRequest extends NetConfiguration implements Runnable {
 
-    private final String theUrl = theBaseUrl + "/favorites";
+    private final String theUrl = theBaseUrl + "/favoritesNoToken";
     private RequestResponse response;
     private String userDataJson;
 
@@ -21,10 +21,10 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
     @Override
     public void run() {
         try {
-
+            System.out.println(theUrl);
             URL url = new URL(theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("DELETE");
+            httpURLConnection.setRequestMethod( "DELETE" );
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
 
             httpURLConnection.setDoOutput(true);
@@ -34,19 +34,15 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
             }
 
             int responseCode = httpURLConnection.getResponseCode();
+            System.out.println(httpURLConnection.getRequestMethod());
             System.out.println(responseCode);
+            response = new RequestResponse();
 
             if (responseCode == 512){
                 this.response.setMessage("");
-            } else if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader( httpURLConnection.getInputStream()));
-                StringBuffer response = new StringBuffer();
-                String inputLine;
-                while ((inputLine = bufferedReader.readLine()) != null) {
-                    response.append( inputLine );
-                }
-                bufferedReader.close();
+
+            } else if (responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+
 
                 this.response.setMessage("");
             } else {
@@ -54,7 +50,6 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
             }
 
         } catch (Exception e) {
-            System.out.println("entro porque he fallado");
             e.printStackTrace();
         }
 

@@ -1,5 +1,6 @@
 package com.example.clientereto1.network;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.example.clientereto1.MainActivity;
@@ -25,7 +26,8 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
     private String userDataJson;
     public static Resources res;
 
-    public CreateUserRequest (String userDataJson) {
+    public CreateUserRequest (String userDataJson, Context context) {
+        res = context.getResources();
         this.userDataJson = userDataJson;
     }
 
@@ -45,6 +47,7 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
             }
 
             int responseCode = httpURLConnection.getResponseCode();
+            System.out.println(responseCode);
 
             this.response = new UserResponse();
 
@@ -58,7 +61,7 @@ public class CreateUserRequest extends NetConfiguration implements Runnable{
                 this.response.setAccess(false);
                 this.response.setMessage(res.getString(R.string.request_error));
 
-            }   if(responseCode == HttpURLConnection.HTTP_OK){
+            }   if(responseCode == HttpURLConnection.HTTP_CREATED){
 
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream() ) );

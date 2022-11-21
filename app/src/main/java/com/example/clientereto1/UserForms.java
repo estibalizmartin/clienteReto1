@@ -183,15 +183,12 @@ public class UserForms extends AppCompatActivity {
             if (registerFormIsValid()) {
 
                 String userDataJson = generateRegisterJson();
-                UserResponse response = new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson));
+                UserResponse response = new NetworkUtilites(this).makeRequest(new CreateUserRequest(userDataJson, this));
 
-                if (response == null)
-                    Toast.makeText(this, getString(R.string.request_error), Toast.LENGTH_LONG).show();
-                else {
-                    Toast.makeText(this, getString(R.string.user_created), Toast.LENGTH_LONG).show();
+
+                Toast.makeText(this, response.getMessage(), Toast.LENGTH_LONG).show();
+                if (response.isAccess())
                     setFragmentLayout("sign_in");
-                }
-
 
             }
         });

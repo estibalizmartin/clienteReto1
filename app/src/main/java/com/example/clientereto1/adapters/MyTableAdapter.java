@@ -18,9 +18,11 @@ import androidx.annotation.NonNull;
 import com.example.clientereto1.R;
 import com.example.clientereto1.models.Song;
 import com.example.clientereto1.network.CreateFavouriteRequest;
+import com.example.clientereto1.network.DeleteFavouriteRequest;
 import com.example.clientereto1.network.FavouritesRequest;
 import com.example.clientereto1.network.NetworkUtilites;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,25 +72,46 @@ public class MyTableAdapter extends ArrayAdapter<Song> {
             context.startActivity(intent);
         });
 
+        ImageView iv = (ImageView) view.findViewById(R.id.btn_star_big);
+        iv.setTag(android.R.drawable.btn_star_big_off);
         if (songList != null) {
             for (Song favSong : favList) {
+
                 if (favSong.getId() == listToShow.get(position).getId()) {
-                    ImageView iv = (ImageView) view.findViewById(R.id.btn_star_big);
+
+                    iv = (ImageView) view.findViewById(R.id.btn_star_big);
                     iv.setOnClickListener(view1 -> {
                     });
                     iv.setImageResource(android.R.drawable.btn_star_big_on);
+                    iv.setTag(android.R.drawable.btn_star_big_on);
                 }
             }
         } else {
-            ImageView iv = (ImageView) view.findViewById(R.id.btn_star_big);
+            iv = (ImageView) view.findViewById(R.id.btn_star_big);
             iv.setOnClickListener(view1 -> {
             });
             iv.setImageResource(android.R.drawable.btn_star_big_on);
+            iv.setTag(android.R.drawable.btn_star_big_on);
         }
 
         view.findViewById(R.id.btn_star_big).setOnClickListener(v -> {
-            System.out.println(generateFavouriteDataJson(view));
-            new NetworkUtilites(context).makeRequest(new CreateFavouriteRequest(generateFavouriteDataJson(view)));
+
+            ImageView imageView = (ImageView) view.findViewById(R.id.btn_star_big);
+
+            if ((int) imageView.getTag() == android.R.drawable.btn_star_big_on) {
+
+                imageView.setImageResource(android.R.drawable.btn_star_big_off);
+                imageView.setTag(android.R.drawable.btn_star_big_off);
+                System.out.println(generateFavouriteDataJson(view));
+                new NetworkUtilites(context).makeRequest(new DeleteFavouriteRequest(generateFavouriteDataJson(view)));
+
+            } else {
+
+                imageView.setImageResource(android.R.drawable.btn_star_big_on);
+                imageView.setTag(android.R.drawable.btn_star_big_on);
+                new NetworkUtilites(context).makeRequest(new CreateFavouriteRequest(generateFavouriteDataJson(view)));
+
+            }
         });
 
         return view;
@@ -103,8 +126,8 @@ public class MyTableAdapter extends ArrayAdapter<Song> {
     private String generateFavouriteDataJson(View view) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         return "{" +
-                "\"idUser\": \"" + sharedPreferences.getInt("user_id", -1) + "\"," +
-                "\"idSong\": \"" + ((TextView) view.findViewById(R.id.songIdTextView)).getText().toString() + "\"" +
+                "\"iduser\": \"" + sharedPreferences.getInt("user_id", -1) + "\"," +
+                "\"idsong\": \"" + ((TextView) view.findViewById(R.id.songIdTextView)).getText().toString() + "\"" +
                 "}";
     }
 }

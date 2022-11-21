@@ -44,14 +44,7 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
                 this.response.setMessage("");
 
             } else if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader( httpURLConnection.getInputStream()));
-                StringBuffer response = new StringBuffer();
-                String inputLine;
-                while ((inputLine = bufferedReader.readLine()) != null) {
-                    response.append( inputLine );
-                }
-                bufferedReader.close();
+
 
                 this.response.setMessage("");
             } else {
@@ -59,7 +52,6 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
             }
 
         } catch (Exception e) {
-            System.out.println("entro porque he fallado");
             e.printStackTrace();
         }
 
