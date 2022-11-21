@@ -66,7 +66,7 @@ public class UserForms extends AppCompatActivity {
                 }).commit();
 
                 fragmentTransaction.addToBackStack(null);
-                toolbarTitle.setText(getString(R.string.sign_in_txt));
+
                 break;
 
             case "register":
@@ -79,7 +79,7 @@ public class UserForms extends AppCompatActivity {
                 }).commit();
 
                 fragmentTransaction.addToBackStack(null);
-                toolbarTitle.setText(getString(R.string.register_txt));
+
                 break;
 
             default:
@@ -99,6 +99,8 @@ public class UserForms extends AppCompatActivity {
     }
 
     public void sign_in_onCreate() {
+
+        toolbarTitle.setText(getString(R.string.sign_in_txt));
 
         CheckBox checkRemember = findViewById(R.id.rememberCheckBox);
 
@@ -129,20 +131,21 @@ public class UserForms extends AppCompatActivity {
 
             if (signInFormIsValid()) {
 
+                UserResponse loginResponse = new NetworkUtilites(this).makeRequest(new LogInRequest(generateLogInJson(), this));
 
-                UserResponse userResponse = new NetworkUtilites(this).makeRequest(new LogInRequest(generateLogInJson(), this));
+                if (loginResponse.isAccess()) {
 
-                if (userResponse.isAccess()) {
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("user_id", userResponse.getId());
-                    editor.putString("username", userResponse.getUsername());
+                    editor.putInt("user_id", loginResponse.getId());
+                    editor.putString("username", loginResponse.getUsername());
                     editor.commit();
 
+                    Toast.makeText(this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
                     startActivity(intent);
                     finish();
                 } else
-                    Toast.makeText(this, getString(R.string.user_doesnt_exist), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -163,6 +166,7 @@ public class UserForms extends AppCompatActivity {
     }
 
     public void register_onCreate(){
+        toolbarTitle.setText(getString(R.string.register_txt));
         findViewById(R.id.registerButtonRegister).setOnClickListener(v -> {
 
             if (registerFormIsValid()) {

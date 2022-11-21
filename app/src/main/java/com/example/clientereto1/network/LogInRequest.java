@@ -3,6 +3,7 @@ package com.example.clientereto1.network;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.example.clientereto1.R;
 import com.example.clientereto1.models.UserResponse;
 
 import java.io.BufferedReader;
@@ -29,24 +30,20 @@ public class LogInRequest extends NetConfiguration implements Runnable{
     @Override
     public void run() {
 
-// The URL
-        URL url = null;
         try {
-            url = new URL( theUrl);
+            URL url = new URL( theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-
-            httpURLConnection.setRequestProperty("Content-Type", "application/json");
-
             httpURLConnection.setRequestMethod( "POST" );
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
             httpURLConnection.setDoOutput(true);
+
             try (OutputStream os = httpURLConnection.getOutputStream()) {
                 byte[] input = userDataJson.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println("response code:: " + responseCode);
+
             if (responseCode == 432){
                 response.setAccess(false);
                 response.setMessage("El usuario no existe");
@@ -66,15 +63,16 @@ public class LogInRequest extends NetConfiguration implements Runnable{
                 }
                 bufferedReader.close();
 
-                String access = response.substring(2, response.indexOf(",") - 1).replace("\"\"", "");
+                String id = response.substring(2, response.indexOf(",") - 1).replace("\"\"", "");
                 String username = response.substring(response.indexOf(",") + 2, response.length() - 2).replace("\"\"", "");
 
 
                 this.response.setAccess(true);
-                this.response.setMessage(res.getString(R.string.welcome) + " " + username);
+                this.response.setMessage(res.getString(R.string.welcome)+ " " + username);
                 this.response.setUsername(username);
-                this.response.setId(Integer.parseInt(access));
+                this.response.setId(Integer.parseInt(id));
             }
+
         } catch (MalformedURLException | ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

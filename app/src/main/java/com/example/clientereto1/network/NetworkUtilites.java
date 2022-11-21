@@ -99,27 +99,6 @@ public class NetworkUtilites {
         } else
             return new UserResponse(false, res.getString(R.string.error_communication));
     }
-    /*public UserResponse makeRequest(LogInRequest logInRequest) {
-        if (isConnected()) {
-
-            Thread thread = new Thread(logInRequest);
-            try {
-                thread.start();
-                thread.join(); // Awaiting response from the server...
-            } catch (InterruptedException e) {
-                // Nothing to do here...
-            }
-            // Processing the answer
-            UserResponse response = lognRequest.getResponse();
-
-            System.out.println("Respuesta login: " + response);
-
-            return response;
-
-
-        } else
-            return null;
-    }*/
 
 
     public boolean isConnected() {
