@@ -7,13 +7,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import  android.widget.SearchView;
 
+import android.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +31,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SongList extends AppCompatActivity {
     ArrayList<Song> songList;
@@ -53,7 +57,6 @@ public class SongList extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")
     public void community_onCreate() {
         songList = networkUtilites.makeRequest(new SongsRequest());
-        favList = networkUtilites.makeRequest(new FavouritesRequest(this));
 
         setContentView(R.layout.layout_community);
         ((ListView) findViewById(R.id.allSongsListView)).setAdapter(new MyTableAdapter(this, R.layout.myrow_layout, songList, favList));
@@ -81,16 +84,7 @@ public class SongList extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String queryText) {
-                System.out.println(queryText);
-                for (int i = 0; i < songListView.getChildCount(); i++) {
-                    LinearLayout listViewLayout = (LinearLayout) songListView.getChildAt(0);
-                    TextView songTitleTextView = (TextView) ((TableRow) listViewLayout.getChildAt(0)).getChildAt(0);
-
-                    if (songTitleTextView.getText().toString().contains(queryText)) {
-                        System.out.println("Yass");
-                    }
-
-                }
+                searchSong(queryText, songListView);
                 return false;
             }
         });
@@ -111,6 +105,41 @@ public class SongList extends AppCompatActivity {
         findViewById(R.id.allSongsButton).setOnClickListener(v -> {
             community_onCreate();
         });
+
+        ListView songListView = (ListView) findViewById(R.id.favouritesListView);
+        SearchView searchView = (SearchView) findViewById(R.id.favouritesSearchView);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String queryText) {
+                searchSong(queryText, songListView);
+                return false;
+            }
+        });
+
+    }
+
+    public void searchSong(String queryText, ListView songlistView) {
+        for (int i = 0; i < songlistView.getChildCount(); i++) {
+            System.out.println(i);
+            LinearLayout listViewLayout = (LinearLayout) songlistView.getChildAt(i);
+            TextView songTitleTextView = (TextView) ((TableRow) listViewLayout.getChildAt(0)).getChildAt(0);
+
+            if (songTitleTextView.getText().toString().toLowerCase().contains(queryText.toLowerCase())) {
+                listViewLayout.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                listViewLayout.setVisibility(View.VISIBLE);
+            }
+            else {
+                listViewLayout.setLayoutParams(new AbsListView.LayoutParams(-1,1));
+                listViewLayout.setVisibility(View.GONE);
+            }
+        }
     }
 
 

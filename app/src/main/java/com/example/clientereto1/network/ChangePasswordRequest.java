@@ -1,5 +1,9 @@
 package com.example.clientereto1.network;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.example.clientereto1.R;
 import com.example.clientereto1.models.RequestResponse;
 
 import java.io.BufferedReader;
@@ -8,14 +12,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DeleteFavouriteRequest extends NetConfiguration implements Runnable {
+public class ChangePasswordRequest extends NetConfiguration implements Runnable {
 
-    private final String theUrl = theBaseUrl + "/favorites";
+    private final String theUrl = theBaseUrl + "/changePasswordNoToken";
     private RequestResponse response;
     private String userDataJson;
+    private Resources res;
 
-    public DeleteFavouriteRequest(String userDataJson) {
+    public ChangePasswordRequest(String userDataJson, Context context) {
         this.userDataJson = userDataJson;
+        res = context.getResources();
     }
 
     @Override
@@ -24,7 +30,7 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
 
             URL url = new URL(theUrl);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("DELETE");
+            httpURLConnection.setRequestMethod( "POST" );
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
 
             httpURLConnection.setDoOutput(true);
@@ -35,10 +41,15 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
 
             int responseCode = httpURLConnection.getResponseCode();
             System.out.println(responseCode);
+            response = new RequestResponse();
 
-            if (responseCode == 512){
-                this.response.setMessage("");
-            } else if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == 432 || responseCode == 433) {
+
+                this.response.setAccess(false);
+                this.response.setMessage(res.getString(R.string.user_doesnt_exist));
+
+            } else if (responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream()));
                 StringBuffer response = new StringBuffer();
@@ -48,13 +59,15 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
                 }
                 bufferedReader.close();
 
-                this.response.setMessage("");
+                this.response.setAccess(true);
+                this.response.setMessage(res.getString(R.string.password_changed));
+
             } else {
-                this.response.setMessage("");
+                this.response.setAccess(false);
+                this.response.setMessage(res.getString(R.string.request_error));
             }
 
         } catch (Exception e) {
-            System.out.println("entro porque he fallado");
             e.printStackTrace();
         }
 
@@ -63,5 +76,4 @@ public class DeleteFavouriteRequest extends NetConfiguration implements Runnable
     public RequestResponse getResponse() {
         return response;
     }
-
 }

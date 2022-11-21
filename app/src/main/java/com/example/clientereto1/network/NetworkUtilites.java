@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.clientereto1.R;
 import com.example.clientereto1.adapters.MyTableAdapter;
+import com.example.clientereto1.models.RequestResponse;
 import com.example.clientereto1.models.Song;
 import com.example.clientereto1.models.UserResponse;
 
@@ -100,7 +101,25 @@ public class NetworkUtilites {
             return new UserResponse(false, res.getString(R.string.error_communication));
     }
 
-    public int makeRequest(CreateFavouriteRequest createFavouriteRequest){
+    public RequestResponse makeRequest(ChangePasswordRequest changePasswordRequest) {
+        if (isConnected()) {
+
+            Thread thread = new Thread(changePasswordRequest);
+            try {
+                thread.start();
+                thread.join();
+            } catch (InterruptedException e) {
+            }
+
+            RequestResponse response = changePasswordRequest.getResponse();
+
+            return response;
+
+        } else
+            return new RequestResponse(res.getString(R.string.request_error));
+    }
+
+    public RequestResponse makeRequest(CreateFavouriteRequest createFavouriteRequest){
         if (isConnected()) {
             Thread thread = new Thread(createFavouriteRequest);
             try{
@@ -111,10 +130,10 @@ public class NetworkUtilites {
             }
             // Processing the answer
             System.out.println("respuesta desde el utilities: "+createFavouriteRequest.getResponse());
-            int response = createFavouriteRequest.getResponse();
+            RequestResponse response = createFavouriteRequest.getResponse();
             return response;
         }else{
-            return -1;
+            return null;
         }
     }
 

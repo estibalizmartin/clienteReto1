@@ -1,5 +1,7 @@
 package com.example.clientereto1.network;
 
+import com.example.clientereto1.models.RequestResponse;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -9,11 +11,11 @@ import java.net.URL;
 public class CreateFavouriteRequest extends NetConfiguration implements Runnable {
 
     private final String theUrl = theBaseUrl + "/favorites";
-    private int response;
-    private String favouriteDataJson;
+    private RequestResponse response;
+    private String userDataJson;
 
-    public CreateFavouriteRequest(String favouriteDataJson) {
-        this.favouriteDataJson = favouriteDataJson;
+    public CreateFavouriteRequest(String userDataJson) {
+        this.userDataJson = userDataJson;
     }
 
     @Override
@@ -27,15 +29,16 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
 
             httpURLConnection.setDoOutput(true);
             try(OutputStream os = httpURLConnection.getOutputStream()) {
-                byte[] input = favouriteDataJson.getBytes("utf-8");
+                byte[] input = userDataJson.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
             int responseCode = httpURLConnection.getResponseCode();
-            System.out.println("Codigo de respuesta: "+responseCode);
+            response = new RequestResponse();
 
-            if (responseCode == 432){
-                this.response = 0;
+            if (responseCode == 512){
+                this.response.setMessage("");
+
             } else if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader( httpURLConnection.getInputStream()));
@@ -46,7 +49,9 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
                 }
                 bufferedReader.close();
 
-                this.response = Integer.parseInt(response.toString());
+                this.response.setMessage("");
+            } else {
+                this.response.setMessage("");
             }
 
         } catch (Exception e) {
@@ -56,7 +61,7 @@ public class CreateFavouriteRequest extends NetConfiguration implements Runnable
 
     }
 
-    public int getResponse() {
+    public RequestResponse getResponse() {
         return response;
     }
 }
