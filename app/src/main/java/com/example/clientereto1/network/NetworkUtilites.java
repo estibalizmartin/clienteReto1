@@ -20,6 +20,9 @@ public class NetworkUtilites {
     Context context;
     Resources res;
 
+    public NetworkUtilites() {
+    }
+
     public NetworkUtilites(Context context) {
         this.context = context;
         res = context.getResources();

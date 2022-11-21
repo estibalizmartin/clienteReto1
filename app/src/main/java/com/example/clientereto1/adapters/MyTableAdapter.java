@@ -87,9 +87,8 @@ public class MyTableAdapter extends ArrayAdapter<Song> {
         }
 
         view.findViewById(R.id.btn_star_big).setOnClickListener(v -> {
-            System.out.println("Entrando al onlick");
-            networkUtilites.makeRequest(new CreateFavouriteRequest(generateFavouriteDataJson(view)));
-            System.out.println("Saliendo del onlick");
+            System.out.println(generateFavouriteDataJson(view));
+            new NetworkUtilites(context).makeRequest(new CreateFavouriteRequest(generateFavouriteDataJson(view)));
         });
 
         return view;
@@ -104,8 +103,8 @@ public class MyTableAdapter extends ArrayAdapter<Song> {
     private String generateFavouriteDataJson(View view) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         return "{" +
-                "\"iduser\": \"" + sharedPreferences.getInt("user_id", -1) + "\"," +
-                "\"idsong\": \"" + ((TextView) view.findViewById(R.id.songIdTextView)).getText().toString() + "\"" +
+                "\"idUser\": \"" + sharedPreferences.getInt("user_id", -1) + "\"," +
+                "\"idSong\": \"" + ((TextView) view.findViewById(R.id.songIdTextView)).getText().toString() + "\"" +
                 "}";
     }
 }

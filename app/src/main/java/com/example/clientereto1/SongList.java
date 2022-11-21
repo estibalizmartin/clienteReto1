@@ -22,6 +22,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.clientereto1.adapters.MyTableAdapter;
+import com.example.clientereto1.network.CreateFavouriteRequest;
+import com.example.clientereto1.network.CreateUserRequest;
 import com.example.clientereto1.network.FavouritesRequest;
 import com.example.clientereto1.network.NetworkUtilites;
 import com.example.clientereto1.models.Song;

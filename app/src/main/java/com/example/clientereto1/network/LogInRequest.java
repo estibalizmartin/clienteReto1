@@ -22,6 +22,7 @@ public class LogInRequest extends NetConfiguration implements Runnable{
     String userDataJson;
 
     public LogInRequest(String userDataJson, Context context) {
+        System.out.println(userDataJson);
         this.userDataJson = userDataJson;
         response = new UserResponse();
         res = context.getResources();
@@ -43,6 +44,7 @@ public class LogInRequest extends NetConfiguration implements Runnable{
             }
 
             int responseCode = httpURLConnection.getResponseCode();
+            System.out.println(responseCode);
 
             if (responseCode == 432){
                 response.setAccess(false);
