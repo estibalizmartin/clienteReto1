@@ -2,30 +2,13 @@ package com.example.clientereto1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.clientereto1.adapters.MyTableAdapter;
-import com.example.clientereto1.models.Song;
-
-import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
-    private TextView resetText;
-    private Button signInBtn, registerBtn;
-    private ImageButton resetPasswordBack;
-    private ImageButton signInBack;
-    private ImageButton registerBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +27,30 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, UserForms.class);
             intent.putExtra("fragment", "register");
             startActivity(intent);
+        });
+
+        findViewById(R.id.esLangButton).setOnClickListener(view -> {
+            Locale locale = new Locale("es");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);
+            finish();
+        });
+
+        findViewById(R.id.enLangButton).setOnClickListener(view -> {
+            Locale locale = new Locale("en");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);
+            finish();
         });
     }
 }
