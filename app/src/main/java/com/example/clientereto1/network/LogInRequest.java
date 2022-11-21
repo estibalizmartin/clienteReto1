@@ -1,5 +1,6 @@
 package com.example.clientereto1.network;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.example.clientereto1.models.UserResponse;
@@ -19,9 +20,10 @@ public class LogInRequest extends NetConfiguration implements Runnable{
     public static Resources res;
     String userDataJson;
 
-    public LogInRequest(String userDataJson) {
+    public LogInRequest(String userDataJson, Context context) {
         this.userDataJson = userDataJson;
         response = new UserResponse();
+        res = context.getResources();
     }
 
     @Override
@@ -69,7 +71,7 @@ public class LogInRequest extends NetConfiguration implements Runnable{
 
 
                 this.response.setAccess(true);
-                this.response.setMessage("Welcome "  + username);
+                this.response.setMessage(res.getString(R.string.welcome) + " " + username);
                 this.response.setUsername(username);
                 this.response.setId(Integer.parseInt(access));
             }

@@ -130,22 +130,19 @@ public class UserForms extends AppCompatActivity {
             if (signInFormIsValid()) {
 
 
-                UserResponse userResponse = new NetworkUtilites(this).makeRequest(new LogInRequest(generateLogInJson()));
+                UserResponse userResponse = new NetworkUtilites(this).makeRequest(new LogInRequest(generateLogInJson(), this));
 
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("user_id", userResponse.getId());
-                editor.putString("username", userResponse.getUsername());
-                editor.commit();
-                System.out.println("Respuesta login: "+userResponse.getMessage()+userResponse.isAccess());
-                if(userResponse.isAccess()==true){
+                if (userResponse.isAccess()) {
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("user_id", userResponse.getId());
+                    editor.putString("username", userResponse.getUsername());
+                    editor.commit();
+
                     startActivity(intent);
                     finish();
-                }else{
-                    Toast.makeText(this, userResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-
+                } else
+                    Toast.makeText(this, getString(R.string.user_doesnt_exist), Toast.LENGTH_SHORT).show();
             }
         });
 
