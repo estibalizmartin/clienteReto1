@@ -29,6 +29,7 @@
     <string name="play">Reproducir</string>
     <string name="hello_blank_fragment">Hola fragmento vacío</string>
     <string name="user_already_exists">El usuario introducido ya existe</string>
+    <string name="user_doesnt_exist">No hay ninguna cuenta creada con estas credenciales</string>
     <string name="request_error">Algo salió mal</string>
     <string name="user_created">Usuario creado</string>
     <string name="welcome">Bienvenid@</string>
